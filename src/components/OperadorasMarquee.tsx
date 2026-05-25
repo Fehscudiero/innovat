@@ -1,22 +1,32 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-/**
- * OperadorasMarquee
- * ─────────────────
- * /planos.webp (strip de logos das operadoras) passando em loop infinito.
- *
- * Técnica: duplicamos a imagem N vezes para preencher a tela.
- * O track total contém (N * 2) cópias divididas em 2 grupos iguais.
- * Animamos x de 0 → -(50% do track) com repeat:-1 → loop perfeito.
- *
- * GPU-only: GSAP anima somente `x` (transform3d) — zero layout thrashing.
- * Pausa no hover/focus para a11y.
- */
+// Importando as 9 logos individuais geradas pelo Vite (alta performance)
+import imgAlice from '../assets/operadoras/alice.webp'
+import imgAmil from '../assets/operadoras/amil.png'
+import imgBluemed from '../assets/operadoras/bluemed.png'
+import imgBradesco from '../assets/operadoras/bradesco-saude.webp'
+import imgNotreDame from '../assets/operadoras/notredame.png'
+import imgPorto from '../assets/operadoras/porto.png'
+import imgSami from '../assets/operadoras/sami.webp'
+import imgSulamerica from '../assets/operadoras/sulamerica.png'
+import imgUnimed from '../assets/operadoras/unimed.png'
 
-// Reduzido de 5 para 2 para não repetir a mesma imagem várias vezes na mesma tela
-const HALF = 2
-const TOTAL = HALF * 2  // track total = 4 imagens
+const OPERADORAS = [
+  { name: 'Alice', src: imgAlice },
+  { name: 'Amil', src: imgAmil },
+  { name: 'Blue Med', src: imgBluemed },
+  { name: 'Bradesco Saúde', src: imgBradesco },
+  { name: 'NotreDame Intermédica', src: imgNotreDame },
+  { name: 'Porto Saúde', src: imgPorto },
+  { name: 'Sami', src: imgSami },
+  { name: 'SulAmérica', src: imgSulamerica },
+  { name: 'Unimed', src: imgUnimed },
+]
+
+// Para preencher até monitores 4K ultrawide sem espaços vazios, 
+// duplicamos a lista base 4 vezes (2 grupos para a esquerda, 2 para a direita)
+const TRACK_ITEMS = [...OPERADORAS, ...OPERADORAS, ...OPERADORAS, ...OPERADORAS]
 
 export default function OperadorasMarquee() {
   const trackRef = useRef<HTMLDivElement>(null)
@@ -27,7 +37,10 @@ export default function OperadorasMarquee() {
     if (!track) return
 
     const start = () => {
-      const halfW = track.scrollWidth / 2  // largura de UM grupo (HALF imagens)
+      // Movimentamos exatamente 50% da largura total do track.
+      // Como temos 4 blocos de operadoras idênticos, 50% equivalem a 2 blocos.
+      // O looping será perfeitamente imperceptível.
+      const halfW = track.scrollWidth / 2  
       if (!halfW) return
 
       tweenRef.current = gsap.fromTo(
@@ -35,18 +48,17 @@ export default function OperadorasMarquee() {
         { x: 0 },
         {
           x: -halfW,
-          duration: 45,       // segundos por ciclo — ajustado para imagens gigantes
+          duration: 60,       // Velocidade agradável e luxuosa
           ease: 'none',
-          repeat: -1,         // infinito
-          // repeatRefresh falso aqui pois usamos fromTo com x fixo
+          repeat: -1,         // Infinito
         }
       )
     }
 
-    // Espera o primeiro frame para garantir que o DOM foi pintado e scrollWidth é correto
+    // Espera o primeiro frame para garantir que o DOM foi pintado e scrollWidth calculado
     const rafId = requestAnimationFrame(start)
 
-    // Pausa no hover e focus — acessibilidade
+    // Acessibilidade e Efeito Premium: Pausa no hover para o usuário ver/clicar no logo
     const wrapper = track.closest('.op-marquee-wrapper') as HTMLElement | null
     if (wrapper) {
       const pause  = () => tweenRef.current?.pause()
@@ -69,7 +81,6 @@ export default function OperadorasMarquee() {
       aria-labelledby="operadoras-heading"
       id="operadoras"
     >
-      {/* HEADER */}
       <div className="container operadoras-header">
         <p className="operadoras-eyebrow" id="operadoras-heading">
           Operadoras parceiras
@@ -79,28 +90,21 @@ export default function OperadorasMarquee() {
         </p>
       </div>
 
-      {/* FAIXA COM MARQUEE */}
       <div
         className="op-marquee-wrapper"
         role="marquee"
         aria-live="off"
-        aria-label="Carrossel das operadoras parceiras"
+        aria-label="Carrossel interativo das operadoras parceiras"
       >
-        {/* FADE ESQUERDA */}
         <div className="op-fade-left" aria-hidden="true" />
 
-        {/* TRACK — animado pelo GSAP */}
+        {/* TRACK animado */}
         <div className="op-marquee-track" ref={trackRef}>
-          {Array.from({ length: TOTAL }).map((_, i) => (
-            <div className="op-marquee-item" key={i}>
+          {TRACK_ITEMS.map((op, idx) => (
+            <div className="op-card" key={`${op.name}-${idx}`}>
               <img
-                src="/planos.webp"
-                alt={i === 0
-                  ? 'Operadoras parceiras: Alice, SulAmérica, Unimed, Hapvida, Amil, Porto Saúde, Bradesco Saúde, Blue Med e NotreDame'
-                  : ''}
-                aria-hidden={i !== 0}
-                width="880"
-                height="133"
+                src={op.src}
+                alt={op.name}
                 loading="lazy"
                 decoding="async"
                 draggable={false}
@@ -109,14 +113,13 @@ export default function OperadorasMarquee() {
           ))}
         </div>
 
-        {/* FADE DIREITA */}
         <div className="op-fade-right" aria-hidden="true" />
       </div>
 
       {/* Lista acessível para leitores de tela */}
       <ul aria-label="Lista de operadoras parceiras" className="sr-only">
-        {['Alice','SulAmérica','Unimed','Hapvida','Amil','Porto Saúde','Bradesco Saúde','Blue Med','NotreDame Intermédica'].map(op => (
-          <li key={op}>{op}</li>
+        {OPERADORAS.map(op => (
+          <li key={op.name}>{op.name}</li>
         ))}
       </ul>
     </section>
