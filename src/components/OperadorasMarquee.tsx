@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
-// Importando as 9 logos individuais geradas pelo Vite (alta performance)
 import imgAlice from '../assets/operadoras/alice.webp'
 import imgAmil from '../assets/operadoras/amil.png'
 import imgBluemed from '../assets/operadoras/bluemed.png'
@@ -12,66 +11,73 @@ import imgSami from '../assets/operadoras/sami.webp'
 import imgSulamerica from '../assets/operadoras/sulamerica.png'
 import imgUnimed from '../assets/operadoras/unimed.png'
 
-const OPERADORAS = [
-  { name: 'Alice', src: imgAlice },
+// PISTA 1: Vai para a ESQUERDA
+const TRACK_1 = [
   { name: 'Amil', src: imgAmil },
-  { name: 'Blue Med', src: imgBluemed },
   { name: 'Bradesco Saúde', src: imgBradesco },
   { name: 'NotreDame Intermédica', src: imgNotreDame },
   { name: 'Porto Saúde', src: imgPorto },
-  { name: 'Sami', src: imgSami },
-  { name: 'SulAmérica', src: imgSulamerica },
   { name: 'Unimed', src: imgUnimed },
 ]
 
-// Para preencher até monitores 4K ultrawide sem espaços vazios, 
-// duplicamos a lista base 4 vezes (2 grupos para a esquerda, 2 para a direita)
-const TRACK_ITEMS = [...OPERADORAS, ...OPERADORAS, ...OPERADORAS, ...OPERADORAS]
+// PISTA 2: Vai para a DIREITA (Parallax oposto)
+const TRACK_2 = [
+  { name: 'Alice', src: imgAlice },
+  { name: 'Blue Med', src: imgBluemed },
+  { name: 'Sami', src: imgSami },
+  { name: 'SulAmérica', src: imgSulamerica },
+]
+
+// Multiplicadores pesados para preencher 4K sem buracos
+const T1_FULL = [...TRACK_1, ...TRACK_1, ...TRACK_1, ...TRACK_1, ...TRACK_1, ...TRACK_1]
+const T2_FULL = [...TRACK_2, ...TRACK_2, ...TRACK_2, ...TRACK_2, ...TRACK_2, ...TRACK_2, ...TRACK_2, ...TRACK_2]
 
 export default function OperadorasMarquee() {
-  const trackRef = useRef<HTMLDivElement>(null)
-  const tweenRef = useRef<gsap.core.Tween | null>(null)
+  const t1Ref = useRef<HTMLDivElement>(null)
+  const t2Ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const track = trackRef.current
-    if (!track) return
-
-    const start = () => {
-      // Movimentamos exatamente 50% da largura total do track.
-      // Como temos 4 blocos de operadoras idênticos, 50% equivalem a 2 blocos.
-      // O looping será perfeitamente imperceptível.
-      const halfW = track.scrollWidth / 2  
-      if (!halfW) return
-
-      tweenRef.current = gsap.fromTo(
-        track,
-        { x: 0 },
-        {
-          x: -halfW,
-          duration: 60,       // Velocidade agradável e luxuosa
-          ease: 'none',
-          repeat: -1,         // Infinito
-        }
-      )
+    // 1. ANIMAÇÃO: PISTA 1 (Esquerda)
+    if (t1Ref.current) {
+      const halfW = t1Ref.current.scrollWidth / 2
+      gsap.fromTo(t1Ref.current, { x: 0 }, {
+        x: -halfW,
+        duration: 40,
+        ease: 'none',
+        repeat: -1
+      })
     }
 
-    // Espera o primeiro frame para garantir que o DOM foi pintado e scrollWidth calculado
-    const rafId = requestAnimationFrame(start)
-
-    // Acessibilidade e Efeito Premium: Pausa no hover para o usuário ver/clicar no logo
-    const wrapper = track.closest('.op-marquee-wrapper') as HTMLElement | null
-    if (wrapper) {
-      const pause  = () => tweenRef.current?.pause()
-      const resume = () => tweenRef.current?.resume()
-      wrapper.addEventListener('mouseenter', pause,  { passive: true })
-      wrapper.addEventListener('mouseleave', resume, { passive: true })
-      wrapper.addEventListener('focusin',   pause,  { passive: true })
-      wrapper.addEventListener('focusout',  resume, { passive: true })
+    // 2. ANIMAÇÃO: PISTA 2 (Direita) - Velocidade levemente diferente para efeito de profundidade
+    if (t2Ref.current) {
+      const halfW = t2Ref.current.scrollWidth / 2
+      gsap.fromTo(t2Ref.current, { x: -halfW }, {
+        x: 0,
+        duration: 55, // Mais lento = parece estar "no fundo"
+        ease: 'none',
+        repeat: -1
+      })
     }
+
+    // 3. O TOQUE DE MESTRE: LEVITAÇÃO ORGÂNICA (BOBBING)
+    const cards = gsap.utils.toArray('.op-card') as HTMLElement[]
+    cards.forEach((card) => {
+      // Cada card recebe valores randômicos garantindo que nenhum flutue exatamente igual ao outro
+      gsap.to(card, {
+        y: "random(-16, 16)",
+        rotation: "random(-2, 2)",
+        duration: "random(2.5, 4)",
+        yoyo: true,
+        repeat: -1,
+        ease: 'sine.inOut',
+        delay: "random(0, 2)"
+      })
+    })
 
     return () => {
-      cancelAnimationFrame(rafId)
-      tweenRef.current?.kill()
+      gsap.killTweensOf(t1Ref.current)
+      gsap.killTweensOf(t2Ref.current)
+      gsap.killTweensOf('.op-card')
     }
   }, [])
 
@@ -83,10 +89,10 @@ export default function OperadorasMarquee() {
     >
       <div className="container operadoras-header">
         <p className="operadoras-eyebrow" id="operadoras-heading">
-          Operadoras parceiras
+          Poder de Escolha
         </p>
         <p className="operadoras-sub">
-          Trabalhamos com as maiores e melhores operadoras do mercado
+          As marcas de elite do mercado, organizadas para você.
         </p>
       </div>
 
@@ -94,21 +100,25 @@ export default function OperadorasMarquee() {
         className="op-marquee-wrapper"
         role="marquee"
         aria-live="off"
-        aria-label="Carrossel interativo das operadoras parceiras"
+        aria-label="Levitação interativa das operadoras parceiras"
       >
+        {/* FADES (Sombra nas bordas da tela) */}
         <div className="op-fade-left" aria-hidden="true" />
 
-        {/* TRACK animado */}
-        <div className="op-marquee-track" ref={trackRef}>
-          {TRACK_ITEMS.map((op, idx) => (
-            <div className="op-card" key={`${op.name}-${idx}`}>
-              <img
-                src={op.src}
-                alt={op.name}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-              />
+        {/* PISTA 1 (Move para a Esquerda) */}
+        <div className="op-marquee-track op-track-1" ref={t1Ref}>
+          {T1_FULL.map((op, idx) => (
+            <div className="op-card" key={`t1-${op.name}-${idx}`}>
+              <img src={op.src} alt={op.name} loading="lazy" decoding="async" draggable={false} />
+            </div>
+          ))}
+        </div>
+
+        {/* PISTA 2 (Move para a Direita) */}
+        <div className="op-marquee-track op-track-2" ref={t2Ref}>
+          {T2_FULL.map((op, idx) => (
+            <div className="op-card" key={`t2-${op.name}-${idx}`}>
+              <img src={op.src} alt={op.name} loading="lazy" decoding="async" draggable={false} />
             </div>
           ))}
         </div>
@@ -116,9 +126,8 @@ export default function OperadorasMarquee() {
         <div className="op-fade-right" aria-hidden="true" />
       </div>
 
-      {/* Lista acessível para leitores de tela */}
       <ul aria-label="Lista de operadoras parceiras" className="sr-only">
-        {OPERADORAS.map(op => (
+        {TRACK_1.concat(TRACK_2).map(op => (
           <li key={op.name}>{op.name}</li>
         ))}
       </ul>

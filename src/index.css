@@ -831,50 +831,39 @@ h1, h2, h3, h4 {
   width: 100%;
   contain: paint;
   background: var(--bg-off);
-  padding-block: 0;
+  padding-block: 2rem 4rem; /* Espaço para levitação */
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem; /* Distância entre a Pista 1 e Pista 2 */
 }
 
-/* TRACK — GPU only via GSAP x */
+/* TRACKS — GPU only via GSAP x */
 .op-marquee-track {
   display: flex;
   align-items: center;
   width: max-content;
   will-change: transform;
-  gap: 3rem; /* Espaço entre as logos */
-  padding-block: 2.5rem; /* Respiro superior/inferior para o hover glow/transform não cortar */
+  gap: 2.5rem; /* Espaço horizontal entre as logos */
 }
 
-/* O CARD PREMIUM DA OPERADORA */
+/* O NOVO CARD ORGÂNICO (Bolhas/Pílulas Vivas) */
 .op-card {
   flex-shrink: 0;
-  width: 140px;
-  height: 80px;
-  background: var(--bg-white);
-  border: 1px solid rgba(0,0,0,0.04);
-  border-radius: 1rem;
+  width: 150px;
+  height: 85px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 50px; /* Efeito pílula (Pill) ultra premium */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  cursor: pointer;
+  padding: 1.25rem 2rem;
   
-  /* Efeito Cinza Inicial (Elegância neutra) */
-  filter: grayscale(100%) opacity(0.7);
-  box-shadow: var(--shadow-sm);
-  
-  /* Transição ultra-suave */
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-              filter 0.4s ease, 
-              box-shadow 0.4s ease;
-  will-change: transform, filter, box-shadow;
-}
-
-/* O TOQUE DE MESTRE: EFEITO HOVER */
-.op-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  filter: grayscale(0%) opacity(1);
-  box-shadow: 0 16px 32px -8px rgba(0, 86, 167, 0.15); /* Brilho com a cor da marca primária */
-  border-color: rgba(0, 86, 167, 0.1);
+  /* Cores vivas por padrão */
+  box-shadow: 0 12px 32px rgba(0, 86, 167, 0.06);
+  will-change: transform; /* Preparado para o GSAP bobbing */
 }
 
 .op-card img {
@@ -887,9 +876,9 @@ h1, h2, h3, h4 {
 
 @media (min-width: 768px) {
   .op-card {
-    width: 180px;
-    height: 100px;
-    padding: 1.25rem;
+    width: 200px;
+    height: 110px;
+    padding: 1.5rem 2.5rem;
   }
 }
 
