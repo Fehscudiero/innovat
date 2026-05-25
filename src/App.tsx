@@ -6,10 +6,11 @@ import Benefits from './components/Benefits'
 import FAQ from './components/FAQ'
 import WhatsAppFloat from './components/WhatsAppFloat'
 
-// Code-split below-fold components for better LCP
-const PlanosSection = lazy(() => import('./components/PlanosSection'))
-const CTASection    = lazy(() => import('./components/CTASection'))
-const Footer        = lazy(() => import('./components/Footer'))
+// Code-split below-fold components para melhor LCP
+const PlanosSection    = lazy(() => import('./components/PlanosSection'))
+const OperadorasMarquee = lazy(() => import('./components/OperadorasMarquee'))
+const CTASection       = lazy(() => import('./components/CTASection'))
+const Footer           = lazy(() => import('./components/Footer'))
 
 const WA_NUMBER = '5511999999999'
 const WA_MSG    = encodeURIComponent('Olá! Vim pelo site e gostaria de cotar um plano de saúde.')
@@ -22,12 +23,20 @@ export default function App() {
       <main id="main-content">
         {/* ABOVE THE FOLD — critical render path */}
         <Hero whatsappNumber={WA_NUMBER} whatsappMsg={WA_MSG} />
+
+        {/* Marquee de tipos de plano (chips) */}
         <InfinitMarquee />
 
-        {/* BELOW THE FOLD — lazy loaded */}
+        {/* BELOW THE FOLD */}
         <Benefits />
+
         <Suspense fallback={null}>
+          {/* Seção de serviços (centrada, sem imagem) */}
           <PlanosSection />
+
+          {/* ✦ Operadoras: planos.webp em loop infinito */}
+          <OperadorasMarquee />
+
           <FAQ />
           <CTASection whatsappNumber={WA_NUMBER} whatsappMsg={WA_MSG} />
           <Footer />
