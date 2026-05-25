@@ -1053,6 +1053,7 @@ h1, h2, h3, h4 {
 ────────────────────────────────────────────────────────── */
 
 /* Hero — form card abaixo do copy no mobile */
+/* Hero — form card abaixo do copy no mobile */
 @media (max-width: 639px) {
   .hero { min-height: auto; padding-bottom: 2rem; }
   .hero-two-col { gap: 2rem; }
@@ -1065,11 +1066,20 @@ h1, h2, h3, h4 {
   .faq-question { font-size: .9375rem; }
   .cta-card { padding: 2.5rem 1.25rem; }
   .footer-logo { height: 36px; }
-  .op-marquee-item img { height: 72px; }
-  .op-marquee-item { padding-inline: 4rem; }
+  /* Garante que o Marquee continue GIGANTE e com 1 item por vez no mobile */
+  .op-marquee-item img { height: 200px; }
+  .op-marquee-item { padding-inline: 8rem; }
   .planos-section { padding-block: 3.5rem; }
   .benefits-section { padding-block: 3.5rem; }
   .plano-list-centered { grid-template-columns: 1fr 1fr; max-width: 100%; }
+}
+
+/* Telas muito pequenas (iPhone SE, Galaxy Fold) */
+@media (max-width: 380px) {
+  .nav-logo img { height: 32px; }
+  .nav-cta-link { font-size: .8125rem; padding: .5rem 1rem; }
+  .hero-headline { font-size: 1.625rem; }
+  .btn-primary { padding: .75rem 1.5rem; }
 }
 
 /* Stats — 2 colunas no mobile (já está assim, reforço) */
