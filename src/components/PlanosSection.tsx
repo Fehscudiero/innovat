@@ -51,7 +51,7 @@ export default function PlanosSection() {
             style={{ 
               maxWidth: '100%', 
               height: 'auto', 
-              maxHeight: '650px',
+              maxHeight: '500px',
               borderRadius: '1.25rem', 
               boxShadow: 'var(--shadow-lg)',
               marginInline: 'auto',
