@@ -15,15 +15,15 @@ import imgUnimed from '../assets/operadoras/unimed.png'
 const TRACK_1 = [
   { name: 'Amil', src: imgAmil },
   { name: 'Bradesco Saúde', src: imgBradesco },
-  { name: 'NotreDame Intermédica', src: imgNotreDame },
-  { name: 'Porto Saúde', src: imgPorto },
-  { name: 'Unimed', src: imgUnimed },
+  { name: 'NotreDame Intermédica', src: imgNotreDame, scale: 1.5 },
+  { name: 'Porto Saúde', src: imgPorto, scale: 1.35 },
+  { name: 'Unimed', src: imgUnimed, scale: 1.4 },
 ]
 
 // PISTA 2: Vai para a DIREITA (Parallax oposto)
 const TRACK_2 = [
   { name: 'Alice', src: imgAlice },
-  { name: 'Blue Med', src: imgBluemed },
+  { name: 'Blue Med', src: imgBluemed, scale: 1.4 },
   { name: 'Sami', src: imgSami },
   { name: 'SulAmérica', src: imgSulamerica },
 ]
@@ -109,7 +109,14 @@ export default function OperadorasMarquee() {
         <div className="op-marquee-track op-track-1" ref={t1Ref}>
           {T1_FULL.map((op, idx) => (
             <div className="op-card" key={`t1-${op.name}-${idx}`}>
-              <img src={op.src} alt={op.name} loading="lazy" decoding="async" draggable={false} />
+              <img 
+                src={op.src} 
+                alt={op.name} 
+                loading="lazy" 
+                decoding="async" 
+                draggable={false} 
+                style={op.scale ? { transform: `scale(${op.scale})` } : undefined}
+              />
             </div>
           ))}
         </div>
@@ -118,7 +125,14 @@ export default function OperadorasMarquee() {
         <div className="op-marquee-track op-track-2" ref={t2Ref}>
           {T2_FULL.map((op, idx) => (
             <div className="op-card" key={`t2-${op.name}-${idx}`}>
-              <img src={op.src} alt={op.name} loading="lazy" decoding="async" draggable={false} />
+              <img 
+                src={op.src} 
+                alt={op.name} 
+                loading="lazy" 
+                decoding="async" 
+                draggable={false} 
+                style={op.scale ? { transform: `scale(${op.scale})` } : undefined}
+              />
             </div>
           ))}
         </div>
