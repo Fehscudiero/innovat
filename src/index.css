@@ -1063,6 +1063,8 @@ h1, h2, h3, h4 {
     grid-template-columns: 2fr 1fr 1fr 1.5fr;
     gap: 2rem;
   }
+}
+
 .footer-col-brand {
   text-align: center;
 }
