@@ -105,11 +105,24 @@ h1, h2, h3, h4 {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
-  transition: box-shadow var(--trans-med), border-color var(--trans-med);
+  transition: background var(--trans-med), box-shadow var(--trans-med), border-color var(--trans-med);
 }
 .nav.scrolled {
-  box-shadow: 0 2px 20px rgba(0,0,0,.08);
-  border-color: rgba(0,0,0,.06);
+  background: rgba(0, 61, 122, 0.92); /* Azul marinho transparente */
+  box-shadow: 0 4px 24px rgba(0,0,0,.15);
+  border-color: rgba(255,255,255,.1);
+}
+.nav.scrolled .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+}
+.nav.scrolled .nav-link:hover {
+  color: #fff;
+}
+.nav.scrolled .nav-mobile-btn {
+  color: #fff;
+}
+.nav.scrolled .nav-logo img {
+  filter: brightness(0) invert(1);
 }
 .nav-inner {
   display: flex;
