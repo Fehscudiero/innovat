@@ -17,7 +17,7 @@ export default function Footer() {
               <h3>Ainda tem dúvidas sobre qual plano escolher?</h3>
               <p>Nossos especialistas estão prontos para analisar seu perfil gratuitamente.</p>
             </div>
-            <a href="#hero" className="btn btn-primary footer-btn-cta">
+            <a href="#form-lead" className="btn btn-primary footer-btn-cta">
               Falar com especialista
             </a>
           </div>
@@ -50,7 +50,7 @@ export default function Footer() {
                 <li><a href="#beneficios" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Benefícios</a></li>
                 <li><a href="#planos" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Planos disponíveis</a></li>
                 <li><a href="#faq" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Dúvidas frequentes</a></li>
-                <li><a href="#hero" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Solicitar cotação</a></li>
+                <li><a href="#form-lead" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Solicitar cotação</a></li>
               </ul>
             </nav>
 

@@ -67,7 +67,7 @@ export default function Nav() {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <a
-              href="#hero"
+              href="#form-lead"
               className="nav-cta-link"
               aria-label="Solicitar cotação gratuita de plano de saúde"
             >
@@ -103,7 +103,7 @@ export default function Nav() {
           ))}
           <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'center' }}>
             <a
-              href="#hero"
+              href="#form-lead"
               className="btn btn-primary"
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? 0 : -1}
