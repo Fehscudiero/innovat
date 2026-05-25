@@ -41,6 +41,25 @@ export default function PlanosSection() {
           ))}
         </ul>
 
+        {/* Imagem Ilustrativa (image2.webp) */}
+        <div style={{ textAlign: 'center', marginTop: '3.5rem', marginBottom: '2.5rem' }}>
+          <img 
+            src="/image2.webp" 
+            alt="Pessoas felizes com saúde garantida" 
+            loading="lazy"
+            style={{ 
+              maxWidth: '100%', 
+              height: 'auto', 
+              maxHeight: '400px', 
+              borderRadius: '1.25rem', 
+              objectFit: 'cover', 
+              boxShadow: 'var(--shadow-lg)',
+              marginInline: 'auto',
+              width: '100%'
+            }} 
+          />
+        </div>
+
         <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
           <a
             href="#form-lead"

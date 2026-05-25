@@ -26,7 +26,7 @@ export default function Footer() {
             <div style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '.625rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', fontSize: '.875rem', color: 'rgba(255,255,255,.45)' }}>
                 <Phone size={14} aria-hidden="true" />
-                <span>(11) 99999-9999</span>
+                <span>(11) 96928-2807</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', fontSize: '.875rem', color: 'rgba(255,255,255,.45)' }}>
                 <Mail size={14} aria-hidden="true" />
