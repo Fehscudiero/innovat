@@ -752,7 +752,7 @@ h1, h2, h3, h4 {
 
 .op-marquee-item {
   flex-shrink: 0;
-  padding-inline: 8rem;
+  padding-inline: 12rem;
   display: flex;
   align-items: center;
 }
@@ -766,6 +766,8 @@ h1, h2, h3, h4 {
   pointer-events: none;
   /* Mantém qualidade em retina */
   image-rendering: -webkit-optimize-contrast;
+  /* Aumenta a imagem visualmente sem mudar a altura da div (atendendo ao pedido de não aumentar altura) */
+  transform: scale(1.35);
 }
 
 /* FADE EDGES — efeito premium de desvanecer nas bordas */
