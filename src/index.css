@@ -468,12 +468,16 @@ h1, h2, h3, h4 {
 .form-select option { color: var(--text-dark); background: #fff; }
 
 .form-error {
-  position: absolute;
-  bottom: -1.3rem;
-  left: 0;
   font-size: .75rem;
   color: #ef4444;
   font-weight: 600;
+  margin-top: .25rem;
+  animation: slideDownError 0.2s ease-out forwards;
+}
+
+@keyframes slideDownError {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .form-security {
@@ -501,6 +505,26 @@ h1, h2, h3, h4 {
   justify-content: center;
   margin: 0 auto 1.5rem;
   box-shadow: 0 8px 24px rgba(24,99,220,.3);
+}
+
+/* ──────────────────────────────────────────────────────────
+   PREMIUM DIVIDER (Borda Customizada Entre Componentes)
+────────────────────────────────────────────────────────── */
+.premium-divider {
+  position: relative;
+}
+.premium-divider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand-primary), transparent);
+  opacity: 0.25;
+  pointer-events: none;
 }
 
 /* ──────────────────────────────────────────────────────────

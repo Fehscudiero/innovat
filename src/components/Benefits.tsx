@@ -85,7 +85,7 @@ export default function Benefits() {
 
       {/* ── BENEFITS CARDS ── */}
       <section
-        className="benefits-section"
+        className="benefits-section premium-divider"
         ref={sectionRef}
         aria-labelledby="benefits-heading"
         id="beneficios"

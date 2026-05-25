@@ -7,7 +7,7 @@ interface CTASectionProps {
 
 export default function CTASection({ whatsappNumber, whatsappMsg }: CTASectionProps) {
   return (
-    <section className="cta-section" aria-labelledby="cta-heading" id="contato">
+    <section className="cta-section premium-divider" aria-labelledby="cta-heading" id="contato">
       <div className="container">
         <div className="cta-card">
           <div style={{ position: 'relative', zIndex: 1 }}>

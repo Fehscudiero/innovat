@@ -34,7 +34,7 @@ export default function FAQ() {
   const toggle = useCallback((i: number) => setOpenIndex(p => p === i ? null : i), [])
 
   return (
-    <section className="faq-section" aria-labelledby="faq-heading" id="faq">
+    <section className="faq-section premium-divider" aria-labelledby="faq-heading" id="faq">
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
           <span className="section-eyebrow">Dúvidas frequentes</span>

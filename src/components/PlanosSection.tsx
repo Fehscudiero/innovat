@@ -12,7 +12,7 @@ const PLANOS_LIST = [
 
 export default function PlanosSection() {
   return (
-    <section className="planos-section" aria-labelledby="planos-heading" id="planos">
+    <section className="planos-section premium-divider" aria-labelledby="planos-heading" id="planos">
       <div className="container">
         {/* Texto centralizado + grid de checkmarks */}
         <div style={{ maxWidth: '720px', marginInline: 'auto', textAlign: 'center', marginBottom: '3rem' }}>
