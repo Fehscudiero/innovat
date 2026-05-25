@@ -320,7 +320,7 @@ h1, h2, h3, h4 {
   background: var(--bg-blue-grad);
   position: relative;
   overflow: hidden;
-  padding-top: 5rem;
+  padding-top: 9rem; /* Aumentado para evitar colisão com a navbar maior */
   min-height: 100svh;
   display: flex;
   align-items: center;

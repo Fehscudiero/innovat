@@ -108,11 +108,11 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
 
             <div style={{ display: 'flex', gap: '.875rem', flexWrap: 'wrap' }}>
               <a
-                href="#form-lead"
+                href="#planos"
                 className="btn btn-primary btn-primary-lg"
-                aria-label="Solicitar cotação gratuita agora"
+                aria-label="Escolha seu plano de saúde"
               >
-                Quero minha cotação grátis
+                Escolha seu plano
                 <ArrowRight size={20} aria-hidden="true" />
               </a>
               <a
