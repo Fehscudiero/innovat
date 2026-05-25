@@ -105,10 +105,9 @@ export default function HighlightWord({
             "
             fill="none"
             stroke={color}
-            strokeWidth="3"
+            strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
           />
         </svg>
       </span>

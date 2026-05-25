@@ -14,9 +14,9 @@ import { gsap } from 'gsap'
  * Pausa no hover/focus para a11y.
  */
 
-// Quantas cópias em CADA metade (mais cópias = sem gap em telas 4K+)
-const HALF = 5
-const TOTAL = HALF * 2  // track total = 10 imagens
+// Reduzido de 5 para 2 para não repetir a mesma imagem várias vezes na mesma tela
+const HALF = 2
+const TOTAL = HALF * 2  // track total = 4 imagens
 
 export default function OperadorasMarquee() {
   const trackRef = useRef<HTMLDivElement>(null)
