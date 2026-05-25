@@ -14,10 +14,16 @@ export default defineConfig({
     rollupOptions: {
       output: {
         // Code splitting manual — carrega apenas o necessário
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-gsap':  ['gsap'],
-          'vendor-icons': ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'vendor-react'
+          }
+          if (id.includes('node_modules/gsap')) {
+            return 'vendor-gsap'
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons'
+          }
         },
       },
     },

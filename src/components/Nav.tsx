@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
@@ -28,7 +28,7 @@ export default function Nav() {
             alt="Innovat Consultoria"
             width="180"
             height="54"
-            fetchpriority="high"
+            fetchPriority="high"
             decoding="sync"
             loading="eager"
           />

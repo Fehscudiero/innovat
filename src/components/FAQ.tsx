@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useId } from 'react'
+import { useState, useCallback, useId } from 'react'
 import { Plus } from 'lucide-react'
 
 const FAQS = [

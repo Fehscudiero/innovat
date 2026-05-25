@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { Heart, Building2, Users, Briefcase, Star, Shield, Stethoscope, Baby } from 'lucide-react'
 
@@ -38,8 +38,8 @@ export default function InfiniteMarquee() {
         ease: 'none',
         repeat: -1,
         modifiers: {
-          x: gsap.utils.unitize((x: number) =>
-            parseFloat(x) % oneSetWidth * -1 >= oneSetWidth ? 0 : x
+          x: gsap.utils.unitize((x: string) =>
+            parseFloat(x) % oneSetWidth * -1 >= oneSetWidth ? 0 : parseFloat(x)
           ),
         },
       })
