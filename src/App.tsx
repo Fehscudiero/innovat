@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import InfinitMarquee from './components/InfiniteMarquee'
@@ -6,12 +6,13 @@ import Benefits from './components/Benefits'
 import FAQ from './components/FAQ'
 import WhatsAppFloat from './components/WhatsAppFloat'
 
-// Code-split footer & CTA (below-fold) — melhora LCP
-const CTASection = lazy(() => import('./components/CTASection'))
-const Footer = lazy(() => import('./components/Footer'))
+// Code-split below-fold components for better LCP
+const PlanosSection = lazy(() => import('./components/PlanosSection'))
+const CTASection    = lazy(() => import('./components/CTASection'))
+const Footer        = lazy(() => import('./components/Footer'))
 
-const WHATSAPP_NUMBER = '5511999999999'
-const WHATSAPP_MSG = encodeURIComponent('Olá! Vim pelo site e quero cotar um plano de saúde.')
+const WA_NUMBER = '5511999999999'
+const WA_MSG    = encodeURIComponent('Olá! Vim pelo site e gostaria de cotar um plano de saúde.')
 
 export default function App() {
   return (
@@ -19,17 +20,21 @@ export default function App() {
       <Nav />
 
       <main id="main-content">
-        <Hero whatsappNumber={WHATSAPP_NUMBER} whatsappMsg={WHATSAPP_MSG} />
+        {/* ABOVE THE FOLD — critical render path */}
+        <Hero whatsappNumber={WA_NUMBER} whatsappMsg={WA_MSG} />
         <InfinitMarquee />
+
+        {/* BELOW THE FOLD — lazy loaded */}
         <Benefits />
-        <FAQ />
         <Suspense fallback={null}>
-          <CTASection whatsappNumber={WHATSAPP_NUMBER} whatsappMsg={WHATSAPP_MSG} />
+          <PlanosSection />
+          <FAQ />
+          <CTASection whatsappNumber={WA_NUMBER} whatsappMsg={WA_MSG} />
           <Footer />
         </Suspense>
       </main>
 
-      <WhatsAppFloat phone={WHATSAPP_NUMBER} message={WHATSAPP_MSG} />
+      <WhatsAppFloat phone={WA_NUMBER} message={WA_MSG} />
     </>
   )
 }

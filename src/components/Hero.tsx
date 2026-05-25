@@ -1,5 +1,5 @@
 import React, { useRef, useState, useTransition, useId } from 'react'
-import { Phone, Mail, User, ShieldCheck, ArrowRight, Star } from 'lucide-react'
+import { ArrowRight, Lock, CheckCircle2, Phone, Mail, User } from 'lucide-react'
 
 interface HeroProps {
   whatsappNumber: string
@@ -14,7 +14,6 @@ interface FormData {
   email: string
   plan: PlanType
 }
-
 interface FormErrors {
   name?: string
   phone?: string
@@ -23,26 +22,31 @@ interface FormErrors {
 }
 
 function formatPhone(raw: string): string {
-  const digits = raw.replace(/\D/g, '').slice(0, 11)
-  if (digits.length === 0) return ''
-  if (digits.length <= 2) return `(${digits}`
-  if (digits.length <= 7) return `(${digits.slice(0,2)}) ${digits.slice(2)}`
-  if (digits.length <= 10) return `(${digits.slice(0,2)}) ${digits.slice(2,6)}-${digits.slice(6)}`
-  return `(${digits.slice(0,2)}) ${digits.slice(2,7)}-${digits.slice(7)}`
+  const d = raw.replace(/\D/g, '').slice(0, 11)
+  if (!d.length) return ''
+  if (d.length <= 2) return `(${d}`
+  if (d.length <= 7) return `(${d.slice(0,2)}) ${d.slice(2)}`
+  if (d.length <= 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`
+  return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`
 }
 
-function validate(data: FormData): FormErrors {
-  const errors: FormErrors = {}
-  if (!data.name.trim() || data.name.trim().length < 2) errors.name = 'Informe seu nome completo'
-  const digits = data.phone.replace(/\D/g, '')
-  if (digits.length < 10) errors.phone = 'Telefone inválido (DDD + número)'
-  if (!data.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) errors.email = 'E-mail inválido'
-  if (!data.plan) errors.plan = 'Selecione o tipo de plano'
-  return errors
+function validate(f: FormData): FormErrors {
+  const e: FormErrors = {}
+  if (!f.name.trim() || f.name.trim().length < 2) e.name = 'Informe seu nome completo'
+  if (f.phone.replace(/\D/g, '').length < 10) e.phone = 'Telefone inválido (DDD + número)'
+  if (!f.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = 'E-mail inválido'
+  if (!f.plan) e.plan = 'Selecione o tipo de plano'
+  return e
 }
+
+const TRUST_ITEMS = [
+  { text: 'Regulado pela ANS', icon: '✓' },
+  { text: '+12.000 famílias atendidas', icon: '★' },
+  { text: 'Resposta em 15 min', icon: '⚡' },
+]
 
 export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
-  const formId = useId()
+  const fid = useId()
   const [isPending, startTransition] = useTransition()
   const [form, setForm] = useState<FormData>({ name: '', phone: '', email: '', plan: '' })
   const [errors, setErrors] = useState<FormErrors>({})
@@ -51,217 +55,180 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target
-    if (name === 'phone') {
-      setForm(f => ({ ...f, phone: formatPhone(value) }))
-    } else {
-      setForm(f => ({ ...f, [name]: value }))
-    }
-    // Clear error on change
-    if (errors[name as keyof FormErrors]) {
-      setErrors(er => ({ ...er, [name]: undefined }))
-    }
+    const newVal = name === 'phone' ? formatPhone(value) : value
+    setForm(f => ({ ...f, [name]: newVal }))
+    if (errors[name as keyof FormErrors]) setErrors(er => ({ ...er, [name]: undefined }))
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const errs = validate(form)
-    if (Object.keys(errs).length > 0) {
+    if (Object.keys(errs).length) {
       setErrors(errs)
-      // Focus first error field
-      const firstKey = Object.keys(errs)[0] as keyof FormErrors
-      const el = formRef.current?.querySelector<HTMLElement>(`[name="${firstKey}"]`)
-      el?.focus()
+      const first = Object.keys(errs)[0]
+      formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus()
       return
     }
-    startTransition(() => {
-      setSubmitted(true)
-    })
-    // Build whatsapp message with form data
+    startTransition(() => setSubmitted(true))
     const msg = encodeURIComponent(
-      `Olá! Quero cotar um plano de saúde.\nNome: ${form.name}\nTelefone: ${form.phone}\nE-mail: ${form.email}\nTipo: ${form.plan}`
+      `Olá! Vim pelo site e quero cotar um plano de saúde.\nNome: ${form.name}\nTel: ${form.phone}\nEmail: ${form.email}\nTipo: ${form.plan}`
     )
-    setTimeout(() => {
-      window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank', 'noopener,noreferrer')
-    }, 800)
+    setTimeout(() => window.open(`https://wa.me/${whatsappNumber}?text=${msg}`, '_blank', 'noopener,noreferrer'), 900)
   }
 
   return (
     <section className="hero" aria-labelledby="hero-heading">
-      <div className="hero-grid" aria-hidden="true" />
+      {/* Decorações */}
+      <div className="hero-deco hero-deco-1" aria-hidden="true" />
+      <div className="hero-deco hero-deco-2" aria-hidden="true" />
 
       <div className="container hero-content">
         <div className="hero-two-col">
 
-          {/* LEFT COPY */}
+          {/* ── COPY ── */}
           <div>
-            <div className="hero-badge" aria-label="Cotação grátis e rápida">
-              <span aria-hidden="true" />
-              Cotação grátis em 5 minutos
+            <div className="hero-badge">
+              <span className="hero-badge-dot" aria-hidden="true" />
+              Atendimento especializado em planos de saúde
             </div>
 
             <h1 className="hero-headline" id="hero-heading">
-              Seu plano de saúde sem <mark>complicação</mark> e sem pagar caro
+              Seu plano de saúde ideal, <em>sem complicação</em> e sem pagar caro
             </h1>
 
             <p className="hero-sub">
-              Comparamos dezenas de operadoras para você encontrar o melhor custo-benefício.
-              Atendimento humanizado do início ao fim — sem letras miúdas.
+              Somos especialistas em planos de saúde individuais, familiares e empresariais.
+              Comparamos as melhores operadoras e entregamos a cotação certa para você em minutos.
             </p>
 
-            <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
-              {['★ 4.9/5 em avaliações', '+12.000 famílias atendidas', 'Resposta em até 15 min'].map((t) => (
-                <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '.375rem', fontSize: '.875rem', color: '#94a3b8' }}>
-                  <Star size={14} color="#fb923c" fill="#fb923c" aria-hidden="true" />
-                  {t}
-                </div>
-              ))}
+            <div style={{ display: 'flex', gap: '.875rem', flexWrap: 'wrap' }}>
+              <a
+                href="#form-lead"
+                className="btn btn-primary btn-primary-lg"
+                aria-label="Solicitar cotação gratuita agora"
+              >
+                Quero minha cotação grátis
+                <ArrowRight size={20} aria-hidden="true" />
+              </a>
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-wa"
+                aria-label="Falar com especialista no WhatsApp"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                WhatsApp
+              </a>
             </div>
 
-            {/* TRUST BADGES */}
-            <div style={{
-              display: 'flex', gap: '1rem', flexWrap: 'wrap',
-              padding: '1rem 1.25rem',
-              background: 'rgba(255,255,255,.04)',
-              borderRadius: '.875rem',
-              border: '1px solid rgba(255,255,255,.08)'
-            }}>
-              {[
-                { icon: <ShieldCheck size={16} aria-hidden="true" />, text: 'Regulado pela ANS' },
-                { icon: <ShieldCheck size={16} aria-hidden="true" />, text: 'Dados 100% seguros' },
-                { icon: <ShieldCheck size={16} aria-hidden="true" />, text: 'Sem spam' },
-              ].map(({ icon, text }) => (
-                <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '.375rem', fontSize: '.8125rem', color: '#64748b' }}>
-                  <span style={{ color: '#34d399' }}>{icon}</span>
+            <div className="hero-trust-strip">
+              {TRUST_ITEMS.map(({ text, icon }) => (
+                <div key={text} className="hero-trust-item">
+                  <div className="hero-trust-icon" aria-hidden="true">
+                    <span style={{ fontSize: '.75rem', fontWeight: 700 }}>{icon}</span>
+                  </div>
                   {text}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* RIGHT: LEAD FORM */}
-          <div>
+          {/* ── LEAD FORM ── */}
+          <div id="form-lead">
             {submitted ? (
-              <div className="lead-card" role="status" aria-live="polite">
-                <div style={{ textAlign: 'center', padding: '2rem 1rem' }}>
-                  <div style={{ fontSize: '3.5rem', marginBottom: '1rem' }} aria-hidden="true">🎉</div>
-                  <h2 style={{ fontSize: '1.375rem', fontWeight: '800', color: '#fff', marginBottom: '.75rem' }}>
-                    Recebemos sua solicitação!
+              <div className="lead-card">
+                <div className="lead-success" role="status" aria-live="polite">
+                  <div className="lead-success-icon" aria-hidden="true">
+                    <CheckCircle2 size={32} color="#fff" />
+                  </div>
+                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-dark)', marginBottom: '.75rem' }}>
+                    Solicitação recebida! 🎉
                   </h2>
-                  <p style={{ color: '#64748b', marginBottom: '1.5rem', fontSize: '.9375rem', lineHeight: '1.7' }}>
-                    Um especialista vai entrar em contato via WhatsApp em até <strong style={{ color: '#f1f5f9' }}>15 minutos</strong>.
+                  <p style={{ color: 'var(--text-muted)', marginBottom: '1.75rem', fontSize: '1rem', lineHeight: 1.7 }}>
+                    Um especialista entrará em contato via WhatsApp em até <strong style={{ color: 'var(--brand-primary)' }}>15 minutos</strong>.
                   </p>
                   <a
                     href={`https://wa.me/${whatsappNumber}?text=${whatsappMsg}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn-cta btn-cta--full"
+                    className="btn btn-wa btn-full"
                     aria-label="Chamar especialista no WhatsApp agora"
                   >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                     Chamar agora no WhatsApp
                     <ArrowRight size={18} aria-hidden="true" />
                   </a>
                 </div>
               </div>
             ) : (
-              <div className="lead-card" id="form-lead">
-                <p className="lead-card-title">Receba sua cotação grátis</p>
-                <p className="lead-card-sub">Preencha os dados abaixo — leva menos de 60 segundos</p>
+              <div className="lead-card">
+                <div className="lead-card-header">
+                  <p className="lead-card-title">Receba sua cotação gratuita</p>
+                  <p className="lead-card-sub">Preencha o formulário — leva menos de 60 segundos</p>
+                </div>
 
-                <form
-                  ref={formRef}
-                  onSubmit={handleSubmit}
-                  noValidate
-                  aria-label="Formulário de cotação de plano de saúde"
-                >
+                <form ref={formRef} onSubmit={handleSubmit} noValidate aria-label="Formulário de cotação">
                   <div className="lead-form-grid">
 
-                    {/* NOME */}
                     <div className="form-group">
-                      <label className="form-label" htmlFor={`${formId}-name`}>
-                        <User size={12} aria-hidden="true" style={{ display: 'inline', marginRight: '.25rem' }} />
+                      <label className="form-label" htmlFor={`${fid}-name`}>
                         Nome completo
                       </label>
                       <input
-                        id={`${formId}-name`}
-                        name="name"
-                        type="text"
-                        className={`form-input${errors.name ? ' error' : ''}`}
+                        id={`${fid}-name`} name="name" type="text"
+                        className={`form-input${errors.name ? ' has-error' : ''}`}
                         placeholder="Seu nome completo"
-                        value={form.name}
-                        onChange={handleChange}
-                        autoComplete="name"
-                        aria-required="true"
+                        value={form.name} onChange={handleChange}
+                        autoComplete="name" aria-required="true"
                         aria-invalid={!!errors.name}
-                        aria-describedby={errors.name ? `${formId}-name-err` : undefined}
+                        aria-describedby={errors.name ? `${fid}-name-e` : undefined}
                       />
-                      {errors.name && (
-                        <span id={`${formId}-name-err`} className="form-error" role="alert">{errors.name}</span>
-                      )}
+                      {errors.name && <span id={`${fid}-name-e`} className="form-error" role="alert">{errors.name}</span>}
                     </div>
 
-                    {/* TELEFONE */}
                     <div className="form-group">
-                      <label className="form-label" htmlFor={`${formId}-phone`}>
-                        <Phone size={12} aria-hidden="true" style={{ display: 'inline', marginRight: '.25rem' }} />
+                      <label className="form-label" htmlFor={`${fid}-phone`}>
                         WhatsApp / Telefone
                       </label>
                       <input
-                        id={`${formId}-phone`}
-                        name="phone"
-                        type="tel"
-                        inputMode="numeric"
-                        className={`form-input${errors.phone ? ' error' : ''}`}
+                        id={`${fid}-phone`} name="phone" type="tel" inputMode="numeric"
+                        className={`form-input${errors.phone ? ' has-error' : ''}`}
                         placeholder="(11) 99999-9999"
-                        value={form.phone}
-                        onChange={handleChange}
-                        autoComplete="tel"
-                        aria-required="true"
+                        value={form.phone} onChange={handleChange}
+                        autoComplete="tel" aria-required="true"
                         aria-invalid={!!errors.phone}
-                        aria-describedby={errors.phone ? `${formId}-phone-err` : undefined}
+                        aria-describedby={errors.phone ? `${fid}-phone-e` : undefined}
                       />
-                      {errors.phone && (
-                        <span id={`${formId}-phone-err`} className="form-error" role="alert">{errors.phone}</span>
-                      )}
+                      {errors.phone && <span id={`${fid}-phone-e`} className="form-error" role="alert">{errors.phone}</span>}
                     </div>
 
-                    {/* EMAIL */}
                     <div className="form-group">
-                      <label className="form-label" htmlFor={`${formId}-email`}>
-                        <Mail size={12} aria-hidden="true" style={{ display: 'inline', marginRight: '.25rem' }} />
+                      <label className="form-label" htmlFor={`${fid}-email`}>
                         E-mail
                       </label>
                       <input
-                        id={`${formId}-email`}
-                        name="email"
-                        type="email"
-                        className={`form-input${errors.email ? ' error' : ''}`}
+                        id={`${fid}-email`} name="email" type="email"
+                        className={`form-input${errors.email ? ' has-error' : ''}`}
                         placeholder="seuemail@exemplo.com"
-                        value={form.email}
-                        onChange={handleChange}
-                        autoComplete="email"
-                        aria-required="true"
+                        value={form.email} onChange={handleChange}
+                        autoComplete="email" aria-required="true"
                         aria-invalid={!!errors.email}
-                        aria-describedby={errors.email ? `${formId}-email-err` : undefined}
+                        aria-describedby={errors.email ? `${fid}-email-e` : undefined}
                       />
-                      {errors.email && (
-                        <span id={`${formId}-email-err`} className="form-error" role="alert">{errors.email}</span>
-                      )}
+                      {errors.email && <span id={`${fid}-email-e`} className="form-error" role="alert">{errors.email}</span>}
                     </div>
 
-                    {/* TIPO DE PLANO */}
                     <div className="form-group">
-                      <label className="form-label" htmlFor={`${formId}-plan`}>
+                      <label className="form-label" htmlFor={`${fid}-plan`}>
                         Tipo de plano
                       </label>
                       <select
-                        id={`${formId}-plan`}
-                        name="plan"
-                        className={`form-select${errors.plan ? ' error' : ''}`}
-                        value={form.plan}
-                        onChange={handleChange}
-                        aria-required="true"
-                        aria-invalid={!!errors.plan}
-                        aria-describedby={errors.plan ? `${formId}-plan-err` : undefined}
+                        id={`${fid}-plan`} name="plan"
+                        className={`form-select${errors.plan ? ' has-error' : ''}`}
+                        value={form.plan} onChange={handleChange}
+                        aria-required="true" aria-invalid={!!errors.plan}
+                        aria-describedby={errors.plan ? `${fid}-plan-e` : undefined}
                       >
                         <option value="" disabled>Selecione uma opção</option>
                         <option value="individual">Individual / Familiar</option>
@@ -269,17 +236,15 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
                         <option value="empresarial">Empresarial (PME)</option>
                         <option value="mei">MEI / Autônomo</option>
                       </select>
-                      {errors.plan && (
-                        <span id={`${formId}-plan-err`} className="form-error" role="alert">{errors.plan}</span>
-                      )}
+                      {errors.plan && <span id={`${fid}-plan-e`} className="form-error" role="alert">{errors.plan}</span>}
                     </div>
 
                     <button
                       type="submit"
-                      className="btn-cta btn-cta--lg btn-cta--full"
+                      className="btn btn-primary btn-primary-lg btn-full"
                       disabled={isPending}
-                      aria-label="Enviar cotação e receber proposta no WhatsApp"
-                      style={{ marginTop: '.5rem' }}
+                      aria-label="Enviar cotação e receber proposta pelo WhatsApp"
+                      style={{ marginTop: '.25rem' }}
                     >
                       {isPending ? 'Enviando…' : 'Quero minha cotação grátis'}
                       <ArrowRight size={20} aria-hidden="true" />
@@ -288,9 +253,10 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
                   </div>
                 </form>
 
-                <p style={{ fontSize: '.75rem', color: '#334155', marginTop: '1rem', textAlign: 'center', lineHeight: '1.6' }}>
-                  🔒 Seus dados estão seguros. Não fazemos spam.
-                </p>
+                <div className="form-security" aria-label="Segurança de dados">
+                  <Lock size={12} aria-hidden="true" />
+                  Seus dados estão seguros. Não fazemos spam.
+                </div>
               </div>
             )}
           </div>

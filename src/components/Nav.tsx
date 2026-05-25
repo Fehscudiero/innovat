@@ -8,7 +8,7 @@ export default function Nav() {
     const onScroll = () => {
       if (rafRef.current) return
       rafRef.current = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 48)
+        setScrolled(window.scrollY > 60)
         rafRef.current = null
       })
     }
@@ -22,17 +22,27 @@ export default function Nav() {
   return (
     <nav className={`nav${scrolled ? ' scrolled' : ''}`} aria-label="Navegação principal">
       <div className="container nav-inner">
-        <a href="/" className="nav-logo" aria-label="Innovat Saúde - Ir para o início">
-          Innovat<span>.</span>
+        <a href="/" className="nav-logo" aria-label="Innovat Consultoria — Página inicial">
+          <img
+            src="/inoovatLogo.webp"
+            alt="Innovat Consultoria"
+            width="180"
+            height="54"
+            fetchpriority="high"
+            decoding="sync"
+            loading="eager"
+          />
         </a>
-        <a
-          href="#form-lead"
-          className="btn-cta"
-          style={{ padding: '.625rem 1.25rem', fontSize: '.9375rem' }}
-          aria-label="Faça sua cotação gratuita agora"
-        >
-          Cotar Grátis
-        </a>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <a
+            href="#form-lead"
+            className="nav-cta-link"
+            aria-label="Solicitar cotação gratuita de plano de saúde"
+          >
+            Cotar Grátis
+          </a>
+        </div>
       </div>
     </nav>
   )
