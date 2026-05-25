@@ -1,15 +1,29 @@
-import { Phone, Mail, MapPin, Shield } from 'lucide-react'
+import { Phone, Mail, MapPin, ShieldCheck, ChevronRight } from 'lucide-react'
 
 export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="footer" role="contentinfo">
-      <div className="container">
-        <div className="footer-grid">
+    <footer className="footer-modern" role="contentinfo">
+      
+      {/* ── TOP CTA EMbutido ── */}
+      <div className="footer-cta-band">
+        <div className="container footer-cta-content">
+          <div className="footer-cta-text">
+            <h3>Ainda tem dúvidas sobre qual plano escolher?</h3>
+            <p>Nossos especialistas estão prontos para analisar seu perfil gratuitamente.</p>
+          </div>
+          <a href="#form-lead" className="btn btn-primary footer-btn-cta">
+            Falar com especialista
+          </a>
+        </div>
+      </div>
 
-          {/* BRAND */}
-          <div>
+      <div className="container">
+        <div className="footer-grid-modern">
+          
+          {/* COLUNA 1: BRAND & SOCIAL */}
+          <div className="footer-col-brand">
             <img
               src="/inoovatLogo.webp"
               alt="Innovat Consultoria"
@@ -17,79 +31,81 @@ export default function Footer() {
               height="48"
               loading="lazy"
               decoding="async"
-              className="footer-logo"
+              className="footer-logo-modern"
             />
-            <p className="footer-desc">
+            <p className="footer-desc-modern">
               Corretora de planos de saúde independente, comprometida com a sua tranquilidade.
-              Comparamos as melhores operadoras para você tomar a decisão certa.
+              Analisamos as melhores operadoras para você tomar a decisão exata.
             </p>
-            <div style={{ marginTop: '1.25rem', display: 'flex', flexDirection: 'column', gap: '.625rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', fontSize: '.875rem', color: 'rgba(255,255,255,.45)' }}>
-                <Phone size={14} aria-hidden="true" />
-                <span>(11) 96928-2807</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '.5rem', fontSize: '.875rem', color: 'rgba(255,255,255,.45)' }}>
-                <Mail size={14} aria-hidden="true" />
-                <span>contato@innovatconsultoria.com.br</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '.5rem', fontSize: '.875rem', color: 'rgba(255,255,255,.45)' }}>
-                <MapPin size={14} style={{ marginTop: '2px', flexShrink: 0 }} aria-hidden="true" />
-                <span>São Paulo — SP</span>
-              </div>
-            </div>
           </div>
 
-          {/* LINKS */}
-          <nav aria-label="Links do rodapé">
-            <p className="footer-heading">Navegação</p>
-            <a href="#beneficios" className="footer-link">Benefícios</a>
-            <a href="#planos" className="footer-link">Planos disponíveis</a>
-            <a href="#faq" className="footer-link">Dúvidas frequentes</a>
-            <a href="#form-lead" className="footer-link">Solicitar cotação</a>
-            <a href="#contato" className="footer-link">Fale conosco</a>
+          {/* COLUNA 2: NAVEGAÇÃO RÁPIDA */}
+          <nav className="footer-col-nav" aria-label="Links rápidos">
+            <h4 className="footer-heading-modern">Navegação</h4>
+            <ul className="footer-nav-list">
+              <li><a href="#beneficios" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Benefícios</a></li>
+              <li><a href="#planos" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Planos disponíveis</a></li>
+              <li><a href="#faq" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Dúvidas frequentes</a></li>
+              <li><a href="#form-lead" className="footer-link-modern"><ChevronRight size={14} className="link-arrow"/> Solicitar cotação</a></li>
+            </ul>
           </nav>
 
-          {/* LEGAL */}
-          <div>
-            <p className="footer-heading">Informações legais</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '.625rem' }}>
-              <div style={{ display: 'flex', gap: '.5rem', alignItems: 'flex-start', fontSize: '.85rem', color: 'rgba(255,255,255,.4)' }}>
-                <Shield size={14} style={{ color: '#34d399', flexShrink: 0, marginTop: '2px' }} aria-hidden="true" />
-                <span>CNPJ: 00.000.000/0001-00</span>
-              </div>
-              <div style={{ display: 'flex', gap: '.5rem', alignItems: 'flex-start', fontSize: '.85rem', color: 'rgba(255,255,255,.4)' }}>
-                <Shield size={14} style={{ color: '#34d399', flexShrink: 0, marginTop: '2px' }} aria-hidden="true" />
-                <span>Registro ANS: 000000</span>
-              </div>
-            </div>
+          {/* COLUNA 3: CONTATO */}
+          <div className="footer-col-contact">
+            <h4 className="footer-heading-modern">Fale Conosco</h4>
+            <ul className="footer-contact-list">
+              <li>
+                <Phone size={16} className="contact-icon" aria-hidden="true" />
+                <a href="tel:+5511969282807">(11) 96928-2807</a>
+              </li>
+              <li>
+                <Mail size={16} className="contact-icon" aria-hidden="true" />
+                <a href="mailto:contato@innovatconsultoria.com.br">contato@innovatconsultoria.com.br</a>
+              </li>
+              <li>
+                <MapPin size={16} className="contact-icon" aria-hidden="true" />
+                <span>São Paulo — SP</span>
+              </li>
+            </ul>
+          </div>
 
-            <div style={{ marginTop: '1.5rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <button
-                type="button"
-                style={{ fontSize: '.8125rem', color: 'rgba(255,255,255,.4)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
-                aria-label="Política de privacidade"
-              >
-                Política de Privacidade
-              </button>
-              <button
-                type="button"
-                style={{ fontSize: '.8125rem', color: 'rgba(255,255,255,.4)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
-                aria-label="Termos de uso"
-              >
-                Termos de Uso
-              </button>
+          {/* COLUNA 4: LEGAL E BADGES */}
+          <div className="footer-col-trust">
+            <h4 className="footer-heading-modern">Segurança</h4>
+            <div className="trust-badges">
+              <div className="trust-badge">
+                <ShieldCheck size={18} className="badge-icon" />
+                <div>
+                  <span className="badge-title">CNPJ Verificado</span>
+                  <span className="badge-value">00.000.000/0001-00</span>
+                </div>
+              </div>
+              <div className="trust-badge">
+                <ShieldCheck size={18} className="badge-icon" />
+                <div>
+                  <span className="badge-title">Registro ANS</span>
+                  <span className="badge-value">000000</span>
+                </div>
+              </div>
             </div>
           </div>
 
         </div>
 
-        <hr className="footer-divider" />
-
-        <div className="footer-bottom">
-          <p>© {year} Innovat Consultoria — Todos os direitos reservados.</p>
-          <p style={{ maxWidth: '480px', fontSize: '.75rem' }}>
-            As informações deste site são de caráter informativo e não constituem oferta formal de seguro.
-            Valores sujeitos à análise cadastral da operadora.
+        {/* ── LINHA INFERIOR (COPYRIGHT E POLÍTICAS) ── */}
+        <div className="footer-bottom-modern">
+          <div className="footer-bottom-content">
+            <p className="copyright-text">
+              © {year} Innovat Consultoria — Todos os direitos reservados.
+            </p>
+            <div className="footer-legal-links">
+              <a href="#">Termos de Uso</a>
+              <span className="dot-separator">•</span>
+              <a href="#">Política de Privacidade</a>
+            </div>
+          </div>
+          <p className="disclaimer-text">
+            As informações deste site são de caráter informativo e não constituem oferta formal de seguro. Valores sujeitos à análise cadastral da operadora.
           </p>
         </div>
       </div>
