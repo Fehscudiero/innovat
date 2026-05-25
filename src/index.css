@@ -1440,3 +1440,108 @@ h1, h2, h3, h4 {
   .nav, .wa-float, .hero-deco { display: none; }
   .hero { min-height: auto; padding-top: 1rem; }
 }
+
+/* ──────────────────────────────────────────────────────────
+   MODAL DE TERMOS E PRIVACIDADE (LegalModal)
+────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(2, 8, 23, 0.7);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modal-fade-in var(--trans-med) forwards;
+}
+
+.modal-content-box {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  position: relative;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  flex-direction: column;
+  animation: modal-slide-up var(--trans-med) forwards;
+  overflow: hidden;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all var(--trans-fast);
+  z-index: 10;
+}
+.modal-close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: var(--text-dark);
+}
+
+.modal-body {
+  padding: 2rem;
+  overflow-y: auto;
+  color: var(--text-body);
+}
+
+.modal-body h2 {
+  font-size: 1.5rem;
+  color: var(--brand-dark);
+  margin-bottom: 0.5rem;
+}
+.modal-body p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.modal-body p:first-of-type {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 2rem;
+}
+.modal-body h3 {
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.btn-legal {
+  background: none;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  transition: color var(--trans-fast);
+}
+.btn-legal:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
