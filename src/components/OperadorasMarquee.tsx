@@ -35,7 +35,7 @@ export default function OperadorasMarquee() {
         { x: 0 },
         {
           x: -halfW,
-          duration: 28,       // segundos por ciclo — ajuste a velocidade aqui
+          duration: 45,       // segundos por ciclo — ajustado para imagens gigantes
           ease: 'none',
           repeat: -1,         // infinito
           // repeatRefresh falso aqui pois usamos fromTo com x fixo

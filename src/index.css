@@ -747,15 +747,17 @@ h1, h2, h3, h4 {
 
 .op-marquee-item {
   flex-shrink: 0;
-  padding-inline: 20rem;
+  padding-inline: 12rem;
   display: flex;
   align-items: center;
 }
 
 .op-marquee-item img {
-  /* Altura fixa — evita CLS */
-  height: 200px;
+  /* Altura fixa bem grande para 1 item cobrir a tela toda */
+  height: 320px;
   width: auto;
+  /* max-width: none é VITAL para impedir que o navegador encolha a imagem causando os espaços em branco! */
+  max-width: none !important;
   object-fit: contain;
   user-select: none;
   pointer-events: none;
