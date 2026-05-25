@@ -4,7 +4,7 @@ import heroImg from '../assets/image1.webp'
 
 const PLANOS_LIST = [
   'Saúde Empresarial',
-  'Saúde PME & Individual',
+  'Saúde\u00A0PME\u00A0&\u00A0Individual',
   'Gestão Ambulatorial',
   'Seguro de Vida',
   'Odontológico',
