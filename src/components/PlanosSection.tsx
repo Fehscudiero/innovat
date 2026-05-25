@@ -1,5 +1,6 @@
 import React from 'react'
 import { CheckCircle2, ArrowRight } from 'lucide-react'
+import HighlightWord from './HighlightWord'
 
 const PLANOS_LIST = [
   'Saúde Empresarial',
@@ -18,7 +19,10 @@ export default function PlanosSection() {
         <div style={{ maxWidth: '720px', marginInline: 'auto', textAlign: 'center', marginBottom: '3rem' }}>
           <span className="section-eyebrow">Nossos serviços</span>
           <h2 className="section-title" id="planos-heading">
-            Planos de Saúde para cada momento da sua vida
+            Planos de Saúde para cada{' '}
+            <HighlightWord color="#0056A7" delay={0.2}>
+              momento da sua vida
+            </HighlightWord>
           </h2>
           <p className="section-subtitle" style={{ marginInline: 'auto' }}>
             Trabalhamos com todas as operadoras e realizamos uma análise de mercado completa

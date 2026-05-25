@@ -1,19 +1,23 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [
-    tailwindcss(),
     react(),
   ],
   build: {
+    // Target moderno — elimina polyfills desnecessários
+    target: 'es2015',
+    // CSS minificado pelo esbuild
+    cssMinify: true,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
+        // Code splitting manual — carrega apenas o necessário
         manualChunks: {
-          react: ['react', 'react-dom'],
-          gsap: ['gsap'],
-          lucide: ['lucide-react'],
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-gsap':  ['gsap'],
+          'vendor-icons': ['lucide-react'],
         },
       },
     },

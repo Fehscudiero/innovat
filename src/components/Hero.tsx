@@ -1,5 +1,6 @@
 import React, { useRef, useState, useTransition, useId } from 'react'
-import { ArrowRight, Lock, CheckCircle2, Phone, Mail, User } from 'lucide-react'
+import { ArrowRight, Lock, CheckCircle2 } from 'lucide-react'
+import HighlightWord from './HighlightWord'
 
 interface HeroProps {
   whatsappNumber: string
@@ -93,7 +94,11 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
             </div>
 
             <h1 className="hero-headline" id="hero-heading">
-              Seu plano de saúde ideal, <em>sem complicação</em> e sem pagar caro
+              Seu plano de saúde ideal,{' '}
+              <HighlightWord color="#7dd3fc" delay={0.5}>
+                sem complicação
+              </HighlightWord>{' '}
+              e sem pagar caro
             </h1>
 
             <p className="hero-sub">

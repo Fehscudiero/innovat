@@ -1,9 +1,8 @@
-@import "tailwindcss";
-
 /* ──────────────────────────────────────────────────────────
-   FONTS — Manrope + Montserrat + Poppins (mesmas do ref)
+   index.css — Innovat Consultoria
+   SEM import do Tailwind: usamos apenas CSS vanilla.
+   Isso elimina ~60KB de CSS não utilizado (PageSpeed crítico).
 ────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* ──────────────────────────────────────────────────────────
    DESIGN TOKENS
@@ -963,10 +962,143 @@ h1, h2, h3, h4 {
 }
 
 /* ──────────────────────────────────────────────────────────
-   ACCESSIBILITY / FOCUS
+   ACCESSIBILITY / FOCUS / SKIP LINK
 ────────────────────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--brand-mid);
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -999px;
+  left: 0;
+  background: var(--brand-primary);
+  color: #fff;
+  padding: .75rem 1.5rem;
+  font-weight: 700;
+  font-size: .9rem;
+  z-index: 9999;
+  border-radius: 0 0 .5rem 0;
+  text-decoration: none;
+  transition: top var(--trans-fast);
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   HIGHLIGHT WORD — efeito SVG circle (estilo Infinity Corretora)
+────────────────────────────────────────────────────────── */
+.hw-wrap {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  /* Garante que o SVG não influencie o layout do texto */
+  isolation: isolate;
+}
+
+/* Container do SVG — ocupa o espaço do texto com padding extra */
+.hw-svg-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -48%);
+  width: calc(100% + 20px);
+  height: calc(100% + 22px);
+  pointer-events: none;
+  z-index: -1;
+  /* GPU composite layer */
+  will-change: opacity;
+}
+
+.hw-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Variante de sublinhado (underline highlight) */
+.hw-underline .hw-svg-wrap {
+  top: auto;
+  bottom: -6px;
+  left: 0;
+  transform: none;
+  width: 100%;
+  height: 12px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   GSAP SCROLL ANIMATIONS — classes de entrada
+────────────────────────────────────────────────────────── */
+/* Estado inicial — set pelo JS antes do ScrollTrigger */
+.anim-fade-up   { opacity: 0; transform: translateY(32px); }
+.anim-fade-left { opacity: 0; transform: translateX(-32px); }
+.anim-fade-right{ opacity: 0; transform: translateX(32px); }
+.anim-scale-in  { opacity: 0; transform: scale(.92); }
+
+/* Quando JS é desativado, mostramos tudo */
+@media (prefers-reduced-motion: reduce) {
+  .anim-fade-up, .anim-fade-left, .anim-fade-right, .anim-scale-in {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hw-svg path { stroke-dashoffset: 0 !important; }
+  .wa-float { animation: none !important; }
+  .hero-badge-dot { animation: none !important; }
+}
+
+/* ──────────────────────────────────────────────────────────
+   RESPONSIVIDADE MOBILE EXTRA
+────────────────────────────────────────────────────────── */
+
+/* Hero — form card abaixo do copy no mobile */
+@media (max-width: 639px) {
+  .hero { min-height: auto; padding-bottom: 2rem; }
+  .hero-two-col { gap: 2rem; }
+  .hero-headline { font-size: 1.875rem; }
+  .hero-sub { font-size: .9375rem; }
+  .hero-trust-strip { gap: .875rem; }
+  .lead-card { border-radius: .875rem; padding: 1.5rem 1.25rem; }
+  .lead-card-title { font-size: 1.25rem; }
+  .faq-trigger { padding: 1rem 1.125rem; }
+  .faq-question { font-size: .9375rem; }
+  .cta-card { padding: 2.5rem 1.25rem; }
+  .footer-logo { height: 36px; }
+  .op-marquee-item img { height: 42px; }
+  .planos-section { padding-block: 3.5rem; }
+  .benefits-section { padding-block: 3.5rem; }
+  .plano-list-centered { grid-template-columns: 1fr 1fr; max-width: 100%; }
+}
+
+/* Stats — 2 colunas no mobile (já está assim, reforço) */
+@media (max-width: 479px) {
+  .stat-value { font-size: 1.75rem; }
+  .hero-headline { font-size: 1.75rem; }
+  .section-title { font-size: 1.625rem; }
+}
+
+/* Tablet landscape refinements */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-two-col { grid-template-columns: 1fr; max-width: 600px; margin-inline: auto; }
+  .hero-headline { font-size: 2.5rem; }
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .plano-list-centered { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Large screens */
+@media (min-width: 1280px) {
+  .hero-headline { font-size: 3.75rem; }
+  .hero-two-col { grid-template-columns: 1.2fr 0.8fr; gap: 4rem; }
+}
+
+/* ──────────────────────────────────────────────────────────
+   PRINT — remover elementos desnecessários
+────────────────────────────────────────────────────────── */
+@media print {
+  .nav, .wa-float, .hero-deco { display: none; }
+  .hero { min-height: auto; padding-top: 1rem; }
 }

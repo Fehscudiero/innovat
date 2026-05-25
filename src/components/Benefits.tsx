@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Clock, HeadphonesIcon, TrendingDown, BadgeCheck, Zap, FileText } from 'lucide-react'
+import HighlightWord from './HighlightWord'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -92,7 +93,10 @@ export default function Benefits() {
         <div className="container">
           <span className="section-eyebrow">Por que escolher a Innovat</span>
           <h2 className="section-title" id="benefits-heading">
-            Sua saúde merece o melhor atendimento
+            Sua saúde merece o{' '}
+            <HighlightWord color="#1863DC" delay={0.25}>
+              melhor atendimento
+            </HighlightWord>
           </h2>
           <p className="section-subtitle">
             Somos uma corretora independente — trabalhamos para você, não para as operadoras.

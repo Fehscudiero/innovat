@@ -3,29 +3,104 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <meta name="description" content="Innovat Consultoria — planos de saúde individuais, familiares e empresariais com cotação grátis em 5 minutos. Atendimento humanizado e suporte pós-venda completo." />
+    <meta name="description" content="Innovat Consultoria — planos de saúde individuais, familiares e empresariais com cotação grátis em 5 minutos. Atendimento humanizado, suporte pós-venda e as melhores operadoras." />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0056A7" />
+    <meta name="author" content="Innovat Consultoria" />
+    <link rel="canonical" href="https://innovatconsultoria.com.br/" />
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Innovat Consultoria — Planos de Saúde com Cotação Grátis em 5 Minutos" />
-    <meta property="og:description" content="Comparamos as melhores operadoras para você. Cotação gratuita em 5 minutos, atendimento humanizado e suporte pós-venda." />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://innovatconsultoria.com.br/" />
+    <meta property="og:title"       content="Innovat Consultoria — Planos de Saúde com Cotação Grátis em 5 Minutos" />
+    <meta property="og:description" content="Comparamos Alice, SulAmérica, Unimed, Hapvida, Amil e mais. Cotação gratuita em 5 minutos, atendimento humanizado e suporte pós-venda completo." />
+    <meta property="og:image"       content="https://innovatconsultoria.com.br/og-image.webp" />
+    <meta property="og:locale"      content="pt_BR" />
+    <meta property="og:site_name"   content="Innovat Consultoria" />
 
-    <!-- Preconnect for Google Fonts performance -->
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Innovat Consultoria — Planos de Saúde" />
+    <meta name="twitter:description" content="Cotação gratuita em 5 minutos. As melhores operadoras comparadas para você." />
+
+    <!-- Preconnect crítico — evita round-trips no critical path -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Manrope + Montserrat — mesmas fontes da Infinity Corretora -->
+    <!-- Fonts: apenas os pesos utilizados, display=swap para evitar FOIT -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&family=Montserrat:wght@600;700;800;900&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&family=Montserrat:wght@700;800;900&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800;900&family=Montserrat:wght@700;800;900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Preload do logo — crítico para LCP -->
+    <link
+      rel="preload"
+      as="image"
+      href="/inoovatLogo.webp"
+      type="image/webp"
+      fetchpriority="high"
     />
 
     <title>Innovat Consultoria — Planos de Saúde com Cotação Grátis em 5 Minutos</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- JSON-LD Schema: LocalBusiness + HealthService -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://innovatconsultoria.com.br/#organization",
+          "name": "Innovat Consultoria",
+          "description": "Corretora de planos de saúde independente. Comparamos as melhores operadoras para você.",
+          "url": "https://innovatconsultoria.com.br/",
+          "telephone": "+55-11-99999-9999",
+          "email": "contato@innovatconsultoria.com.br",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "São Paulo",
+            "addressRegion": "SP",
+            "addressCountry": "BR"
+          },
+          "areaServed": "BR",
+          "sameAs": [],
+          "hasMap": "https://maps.google.com/?q=São+Paulo,+SP"
+        },
+        {
+          "@type": "WebPage",
+          "@id": "https://innovatconsultoria.com.br/#webpage",
+          "url": "https://innovatconsultoria.com.br/",
+          "name": "Innovat Consultoria — Planos de Saúde com Cotação Grátis em 5 Minutos",
+          "description": "Planos de saúde individuais, familiares e empresariais. Cotação grátis e atendimento humanizado.",
+          "inLanguage": "pt-BR",
+          "isPartOf": { "@id": "https://innovatconsultoria.com.br/#organization" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "Existe período de carência nos planos?", "acceptedAnswer": { "@type": "Answer", "text": "Sim. Urgências têm carência máxima de 24h, partos a termo 300 dias e demais até 180 dias." } },
+            { "@type": "Question", "name": "O que é coparticipação?", "acceptedAnswer": { "@type": "Answer", "text": "Coparticipação é um modelo onde você paga uma porcentagem por consulta ou exame. Reduz a mensalidade." } },
+            { "@type": "Question", "name": "Como funcionam os reajustes anuais?", "acceptedAnswer": { "@type": "Answer", "text": "Planos individuais/familiares têm reajuste máximo anual definido pela ANS." } }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
+    <!-- Skip link acessibilidade -->
+    <a href="#main-content" class="skip-link">Ir para o conteúdo principal</a>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
