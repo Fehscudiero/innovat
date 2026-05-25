@@ -31,8 +31,8 @@ export default function Footer() {
               <img
                 src="/logo.png"
                 alt="Alpha Convênios"
-                width="160"
-                height="48"
+                width="320"
+                height="96"
                 loading="lazy"
                 decoding="async"
                 className="footer-logo-modern"

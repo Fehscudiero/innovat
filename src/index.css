@@ -124,7 +124,7 @@ h1, h2, h3, h4 {
   text-decoration: none;
 }
 .nav-logo img {
-  height: 56px; /* Aumentado de 44px para dar mais destaque */
+  height: 80px;
   width: auto;
   aspect-ratio: 300 / 90; /* CLS: reserva espaço exato */
   object-fit: contain;
@@ -1074,7 +1074,7 @@ h1, h2, h3, h4 {
 }
 
 .footer-logo-modern {
-  height: 64px;
+  height: 96px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -1410,7 +1410,7 @@ h1, h2, h3, h4 {
 
 /* Telas muito pequenas (iPhone SE, Galaxy Fold) */
 @media (max-width: 380px) {
-  .nav-logo img { height: 32px; }
+  .nav-logo img { height: 48px; }
   .nav-cta-link { font-size: .8125rem; padding: .5rem 1rem; }
   .hero-headline { font-size: 1.625rem; }
   .btn-primary { padding: .75rem 1.5rem; }

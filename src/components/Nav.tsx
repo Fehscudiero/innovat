@@ -48,8 +48,8 @@ export default function Nav() {
             <img
               src="/logo.png"
               alt="Alpha Convênios"
-              width="180"
-              height="54"
+              width="267"
+              height="80"
               fetchPriority="high"
               decoding="sync"
               loading="eager"
