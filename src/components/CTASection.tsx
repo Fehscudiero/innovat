@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import HighlightWord from './HighlightWord'
 
 interface CTASectionProps {
   whatsappNumber: string
@@ -46,7 +47,7 @@ export default function CTASection({ whatsappNumber, whatsappMsg }: CTASectionPr
                 fontFamily: "'Montserrat', sans-serif",
               }}
             >
-              Pronto para proteger quem você ama?
+              Pronto para proteger <HighlightWord color="#7dd3fc" delay={0.25}>quem você ama</HighlightWord>?
             </h2>
 
             <p style={{

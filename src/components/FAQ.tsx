@@ -1,5 +1,6 @@
 import { useState, useCallback, useId } from "react";
 import { Plus } from "lucide-react";
+import HighlightWord from "./HighlightWord";
 
 const FAQS = [
   {
@@ -46,7 +47,7 @@ export default function FAQ() {
         <div style={{ textAlign: "center", marginBottom: "1rem" }}>
           <span className="section-eyebrow">Dúvidas frequentes</span>
           <h2 className="section-title" id="faq-heading">
-            Respondemos suas principais objeções
+            Respondemos suas <HighlightWord color="#1863DC" delay={0.25}>principais objeções</HighlightWord>
           </h2>
           <p className="section-subtitle" style={{ marginInline: "auto" }}>
             Transparência total antes, durante e depois da contratação.
