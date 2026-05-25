@@ -1188,7 +1188,7 @@ h1, h2, h3, h4 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.65); /* Aumentado de 0.4 para 0.65 para passar no contraste */
 }
 .badge-value {
   display: block;
@@ -1243,7 +1243,7 @@ h1, h2, h3, h4 {
 }
 .disclaimer-text {
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.65); /* Aumentado de 0.3 para 0.65 para passar no contraste */
   max-width: 800px;
   line-height: 1.6;
 }

@@ -96,6 +96,7 @@ export default function Nav() {
               href={link.href}
               className="mobile-nav-link"
               onClick={() => setMenuOpen(false)}
+              tabIndex={menuOpen ? 0 : -1}
             >
               {link.label}
             </a>
@@ -105,6 +106,7 @@ export default function Nav() {
               href="#form-lead"
               className="btn btn-primary"
               onClick={() => setMenuOpen(false)}
+              tabIndex={menuOpen ? 0 : -1}
             >
               Solicitar cotação agora
             </a>

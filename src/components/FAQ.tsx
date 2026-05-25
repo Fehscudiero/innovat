@@ -53,14 +53,14 @@ export default function FAQ() {
           </p>
         </div>
 
-        <dl className="faq-list">
+        <div className="faq-list" role="list">
           {FAQS.map(({ q, a }, i) => {
             const isOpen = openIndex === i;
             const tid = `${uid}-faq-t-${i}`;
             const pid = `${uid}-faq-p-${i}`;
             return (
-              <div key={i} className={`faq-item${isOpen ? " open" : ""}`}>
-                <dt>
+              <div key={i} className={`faq-item${isOpen ? " open" : ""}`} role="listitem">
+                <h3 style={{ margin: 0, padding: 0 }}>
                   <button
                     id={tid}
                     className="faq-trigger"
@@ -74,19 +74,19 @@ export default function FAQ() {
                       <Plus size={16} />
                     </div>
                   </button>
-                </dt>
-                <dd
+                </h3>
+                <div
                   id={pid}
                   className="faq-answer-wrapper"
                   role="region"
                   aria-labelledby={tid}
                 >
                   <p className="faq-answer">{a}</p>
-                </dd>
+                </div>
               </div>
             );
           })}
-        </dl>
+        </div>
 
         <div style={{ textAlign: "center", marginTop: "2.75rem" }}>
           <p
