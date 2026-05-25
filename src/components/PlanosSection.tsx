@@ -51,12 +51,12 @@ export default function PlanosSection() {
             style={{ 
               maxWidth: '100%', 
               height: 'auto', 
-              maxHeight: '400px', 
+              maxHeight: '650px',
               borderRadius: '1.25rem', 
-              objectFit: 'cover', 
               boxShadow: 'var(--shadow-lg)',
               marginInline: 'auto',
-              width: '100%'
+              width: '100%',
+              objectFit: 'contain'
             }} 
           />
         </div>
