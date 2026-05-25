@@ -51,9 +51,9 @@ export default function PlanosSection() {
             style={{ 
               width: '100%',
               maxWidth: '900px', 
-              aspectRatio: '16/7',
+              aspectRatio: '16/9',
               objectFit: 'cover',
-              objectPosition: 'center 30%',
+              objectPosition: 'center',
               borderRadius: '1.5rem', 
               boxShadow: 'var(--shadow-lg)',
               marginInline: 'auto'
