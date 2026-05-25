@@ -708,7 +708,7 @@ h1, h2, h3, h4 {
 
 .operadoras-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .operadoras-eyebrow {
@@ -754,7 +754,7 @@ h1, h2, h3, h4 {
 
 .op-marquee-item img {
   /* Altura fixa bem grande para 1 item cobrir a tela toda */
-  height: 320px;
+  height: 480px;
   width: auto;
   /* max-width: none é VITAL para impedir que o navegador encolha a imagem causando os espaços em branco! */
   max-width: none !important;
