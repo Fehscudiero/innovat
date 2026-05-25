@@ -156,6 +156,7 @@ h1, h2, h3, h4 {
 }
 @media (min-width: 1024px) {
   .nav-links-desktop { display: flex; }
+  .nav-cta-link { display: none; }
 }
 .nav-link {
   font-size: .9375rem;
