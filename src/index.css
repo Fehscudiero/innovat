@@ -699,7 +699,7 @@ h1, h2, h3, h4 {
    OPERADORAS MARQUEE — imagem passando em loop infinito
 ────────────────────────────────────────────────────────── */
 .operadoras-marquee-section {
-  padding-block: 3rem 3.5rem;
+  padding-block: 0;
   background: var(--bg-white);
   content-visibility: auto;
   contain-intrinsic-size: auto 220px;
@@ -733,7 +733,7 @@ h1, h2, h3, h4 {
   width: 100%;
   contain: paint;
   background: var(--bg-off);
-  padding-block: 0.5rem;
+  padding-block: 0;
 }
 
 /* TRACK — GPU only via GSAP x */
@@ -747,14 +747,14 @@ h1, h2, h3, h4 {
 
 .op-marquee-item {
   flex-shrink: 0;
-  padding-inline: 12rem;
+  padding-inline: 20rem;
   display: flex;
   align-items: center;
 }
 
 .op-marquee-item img {
   /* Altura fixa — evita CLS */
-  height: 160px;
+  height: 200px;
   width: auto;
   object-fit: contain;
   user-select: none;
