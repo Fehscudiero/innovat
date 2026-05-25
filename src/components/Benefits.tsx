@@ -70,7 +70,7 @@ export default function Benefits() {
   return (
     <>
       {/* ── STATS BAR ── */}
-      <section className="stats-section" aria-label="Números da Innovat Consultoria">
+      <section className="stats-section" aria-label="Números da Alpha Convênios">
         <div className="container">
           <dl className="stats-grid">
             {STATS.map(({ value, label }) => (
@@ -91,7 +91,7 @@ export default function Benefits() {
         id="beneficios"
       >
         <div className="container">
-          <span className="section-eyebrow">Por que escolher a Innovat</span>
+          <span className="section-eyebrow">Por que escolher a Alpha</span>
           <h2 className="section-title" id="benefits-heading">
             Sua saúde merece o{' '}
             <HighlightWord color="#1863DC" delay={0.25}>

@@ -44,10 +44,10 @@ export default function Nav() {
     <>
       <nav className={`nav${scrolled ? ' scrolled' : ''}`} aria-label="Navegação principal">
         <div className="container nav-inner">
-          <a href="/" className="nav-logo" aria-label="Innovat Consultoria — Página inicial">
+          <a href="/" className="nav-logo" aria-label="Alpha Convênios — Página inicial">
             <img
-              src="/inoovatLogo.webp"
-              alt="Innovat Consultoria"
+              src="/logo.png"
+              alt="Alpha Convênios"
               width="180"
               height="54"
               fetchPriority="high"

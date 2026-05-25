@@ -1,5 +1,5 @@
-/* ──────────────────────────────────────────────────────────
-   index.css — Innovat Consultoria
+/* ==========================================================================
+   index.css — Alpha Convênios
    SEM import do Tailwind: usamos apenas CSS vanilla.
    Isso elimina ~60KB de CSS não utilizado (PageSpeed crítico).
 ────────────────────────────────────────────────────────── */
@@ -12,7 +12,7 @@
   --brand-dark:      #003d7a;
   --brand-mid:       #1863DC;   /* Azul links/destaques */
   --brand-light:     #e8f1fb;
-  --brand-cyan:      #00bcd4;   /* Acento ciano do logo Innovat */
+  --brand-cyan:      #00bcd4;   /* Acento ciano do logo Alpha */
   --accent-cta:      #1863DC;
   --accent-cta-h:    #0e4db5;
 

@@ -29,8 +29,8 @@ export default function Footer() {
             {/* COLUNA 1: BRAND & SOCIAL */}
             <div className="footer-col-brand">
               <img
-                src="/inoovatLogo.webp"
-                alt="Innovat Consultoria"
+                src="/logo.png"
+                alt="Alpha Convênios"
                 width="160"
                 height="48"
                 loading="lazy"
@@ -64,7 +64,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Mail size={16} className="contact-icon" aria-hidden="true" />
-                  <a href="mailto:contato@innovatconsultoria.com.br">contato@innovatconsultoria.com.br</a>
+                  <a href="mailto:contato@alphaconvenios.com.br">contato@alphaconvenios.com.br</a>
                 </li>
                 <li>
                   <MapPin size={16} className="contact-icon" aria-hidden="true" />
@@ -100,7 +100,7 @@ export default function Footer() {
           <div className="footer-bottom-modern">
             <div className="footer-bottom-content">
               <p className="copyright-text">
-                © {year} Innovat Consultoria — Todos os direitos reservados.
+                © {year} Alpha Convênios — Todos os direitos reservados.
               </p>
               <div className="footer-legal-links">
                 <button type="button" onClick={() => setActiveModal('termos')} className="btn-legal">Termos de Uso</button>
