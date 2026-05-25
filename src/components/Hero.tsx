@@ -78,7 +78,7 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
   }
 
   return (
-    <section className="hero" aria-labelledby="hero-heading">
+    <section className="hero" aria-labelledby="hero-heading" id="hero">
       {/* Decorações */}
       <div className="hero-deco hero-deco-1" aria-hidden="true" />
       <div className="hero-deco hero-deco-2" aria-hidden="true" />
