@@ -701,8 +701,6 @@ h1, h2, h3, h4 {
 .operadoras-marquee-section {
   padding-block: 3rem 3.5rem;
   background: var(--bg-white);
-  border-top: 1px solid #e9edf5;
-  border-bottom: 1px solid #e9edf5;
   content-visibility: auto;
   contain-intrinsic-size: auto 220px;
   overflow: hidden;
@@ -734,11 +732,8 @@ h1, h2, h3, h4 {
   overflow: hidden;
   width: 100%;
   contain: paint;
-  /* Linha sutil acima/abaixo da faixa */
-  border-top:    1px solid rgba(0,86,167,.07);
-  border-bottom: 1px solid rgba(0,86,167,.07);
   background: var(--bg-off);
-  padding-block: 1.5rem;
+  padding-block: 0.5rem;
 }
 
 /* TRACK — GPU only via GSAP x */
@@ -759,15 +754,13 @@ h1, h2, h3, h4 {
 
 .op-marquee-item img {
   /* Altura fixa — evita CLS */
-  height: 120px;
+  height: 160px;
   width: auto;
   object-fit: contain;
   user-select: none;
   pointer-events: none;
   /* Mantém qualidade em retina */
   image-rendering: -webkit-optimize-contrast;
-  /* Aumenta a imagem visualmente sem mudar a altura da div (atendendo ao pedido de não aumentar altura) */
-  transform: scale(1.35);
 }
 
 /* FADE EDGES — efeito premium de desvanecer nas bordas */
