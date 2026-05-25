@@ -9,7 +9,14 @@ export default function CTASection({ whatsappNumber, whatsappMsg }: CTASectionPr
   return (
     <section className="cta-section premium-divider" aria-labelledby="cta-heading" id="contato">
       <div className="container">
-        <div className="cta-card">
+        <div 
+          className="cta-card"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 61, 122, 0.85), rgba(24, 99, 220, 0.85)), url('/image2.webp')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
           <div style={{ position: 'relative', zIndex: 1 }}>
             <span style={{
               display: 'inline-flex',
