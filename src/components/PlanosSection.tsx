@@ -1,6 +1,5 @@
 import { CheckCircle2, ArrowRight } from 'lucide-react'
 import HighlightWord from './HighlightWord'
-import heroImg from '../assets/hero.png'
 
 const PLANOS_LIST = [
   'Saúde Empresarial',
@@ -42,10 +41,10 @@ export default function PlanosSection() {
           ))}
         </ul>
 
-        {/* Imagem Ilustrativa (hero.png) */}
+        {/* Imagem Ilustrativa (heroImg.webp) */}
         <div style={{ textAlign: 'center', marginTop: '3.5rem', marginBottom: '2.5rem' }}>
           <img 
-            src={heroImg} 
+            src="/heroImg.webp" 
             alt="Pessoas felizes com saúde garantida" 
             loading="lazy"
             style={{ 
