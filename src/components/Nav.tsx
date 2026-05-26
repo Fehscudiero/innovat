@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 
+import HighlightWord from './HighlightWord'
+
 const NAV_LINKS = [
+  { href: '#hero', label: 'Home' },
   { href: '#beneficios', label: 'Benefícios' },
   { href: '#planos', label: 'Serviços' },
   { href: '#faq', label: 'Dúvidas' },
@@ -11,6 +14,7 @@ const NAV_LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('hero')
   const rafRef = useRef<number | null>(null)
 
   useEffect(() => {
@@ -40,6 +44,30 @@ export default function Nav() {
     }
   }, [menuOpen])
 
+  // Observe active sections for nav highlights
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      { rootMargin: '-20% 0px -60% 0px' }
+    )
+
+    // Atraso curto para garantir que DOM carregou as seções
+    setTimeout(() => {
+      NAV_LINKS.forEach(link => {
+        const el = document.getElementById(link.href.replace('#', ''))
+        if (el) observer.observe(el)
+      })
+    }, 100)
+
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <>
       <nav className={`nav${scrolled ? ' scrolled' : ''}`} aria-label="Navegação principal">
@@ -58,11 +86,20 @@ export default function Nav() {
 
           {/* DESKTOP LINKS */}
           <div className="nav-links-desktop">
-            {NAV_LINKS.map(link => (
-              <a key={link.label} href={link.href} className="nav-link">
-                {link.label}
-              </a>
-            ))}
+            {NAV_LINKS.map(link => {
+              const isActive = activeSection === link.href.slice(1)
+              return (
+                <a key={link.label} href={link.href} className={`nav-link ${isActive ? 'active' : ''}`}>
+                  <HighlightWord 
+                    triggerMode="controlled" 
+                    isActive={isActive} 
+                    color="var(--brand-primary)"
+                  >
+                    {link.label}
+                  </HighlightWord>
+                </a>
+              )
+            })}
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -90,17 +127,26 @@ export default function Nav() {
       {/* MOBILE MENU OVERLAY */}
       <div className={`mobile-menu-overlay ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen}>
         <div className="mobile-menu-content">
-          {NAV_LINKS.map(link => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="mobile-nav-link"
-              onClick={() => setMenuOpen(false)}
-              tabIndex={menuOpen ? 0 : -1}
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map(link => {
+            const isActive = activeSection === link.href.slice(1)
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className={`mobile-nav-link ${isActive ? 'active' : ''}`}
+                onClick={() => setMenuOpen(false)}
+                tabIndex={menuOpen ? 0 : -1}
+              >
+                <HighlightWord 
+                  triggerMode="controlled" 
+                  isActive={isActive} 
+                  color="var(--brand-primary)"
+                >
+                  {link.label}
+                </HighlightWord>
+              </a>
+            )
+          })}
           <div style={{ marginTop: '2.5rem', display: 'flex', justifyContent: 'center' }}>
             <a
               href="#form-lead"

@@ -27,6 +27,8 @@ interface Props {
   once?: boolean
   delay?: number
   className?: string
+  triggerMode?: 'scroll' | 'controlled'
+  isActive?: boolean
 }
 
 export default function HighlightWord({
@@ -35,38 +37,49 @@ export default function HighlightWord({
   once = false,
   delay = 0.3,
   className = '',
+  triggerMode = 'scroll',
+  isActive = false,
 }: Props) {
   const wrapRef  = useRef<HTMLSpanElement>(null)
   const pathRef  = useRef<SVGPathElement>(null)
+  const tweenRef = useRef<gsap.core.Tween>()
 
   useEffect(() => {
     const wrap = wrapRef.current
     const path = pathRef.current
     if (!wrap || !path) return
 
-    // Mede o comprimento total do path para o trick dashoffset
     const len = path.getTotalLength()
     gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
 
-    // Anima quando o elemento entra na viewport
-    const tween = gsap.to(path, {
+    tweenRef.current = gsap.to(path, {
       strokeDashoffset: 0,
-      duration: 1.1,
+      duration: triggerMode === 'scroll' ? 1.1 : 0.6,
       ease: 'power2.inOut',
-      delay,
+      delay: triggerMode === 'scroll' ? delay : 0,
       paused: true,
     })
 
-    const trigger = ScrollTrigger.create({
-      trigger: wrap,
-      start: 'top 88%',
-      once,
-      onEnter: () => tween.restart(),
-      onEnterBack: once ? undefined : () => tween.restart(),
-    })
+    if (triggerMode === 'scroll') {
+      const trigger = ScrollTrigger.create({
+        trigger: wrap,
+        start: 'top 88%',
+        once,
+        onEnter: () => tweenRef.current?.restart(),
+        onEnterBack: once ? undefined : () => tweenRef.current?.restart(),
+      })
+      return () => { trigger.kill(); tweenRef.current?.kill() }
+    } else {
+      return () => { tweenRef.current?.kill() }
+    }
+  }, [delay, once, triggerMode])
 
-    return () => { trigger.kill(); tween.kill() }
-  }, [delay, once])
+  useEffect(() => {
+    if (triggerMode === 'controlled' && tweenRef.current) {
+      if (isActive) tweenRef.current.play()
+      else tweenRef.current.reverse()
+    }
+  }, [isActive, triggerMode])
 
   return (
     <span
