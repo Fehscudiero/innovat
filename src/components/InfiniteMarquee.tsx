@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { Heart, Building2, Users, Briefcase, Star, Shield, Stethoscope, Baby } from 'lucide-react'
+import HighlightWord from './HighlightWord'
 
 interface PlanItem {
   icon: React.ReactNode
@@ -59,7 +60,11 @@ export default function InfiniteMarquee() {
 
   return (
     <section className="strip-section" aria-label="Tipos de planos disponíveis">
-      <p className="strip-label">Planos disponíveis para você</p>
+      <p className="strip-label">
+        <HighlightWord color="#1863DC" delay={0.1}>
+          Planos disponíveis para você
+        </HighlightWord>
+      </p>
       <div className="marquee-wrapper" role="marquee" aria-live="off">
         <div className="marquee-track" ref={trackRef} aria-hidden="true">
           {ITEMS.map((item, i) => (

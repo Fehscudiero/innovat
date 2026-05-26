@@ -48,6 +48,57 @@ const STATS = [
   { value: '48h',    label: 'Ativação do plano' },
 ]
 
+function AnimatedStat({ value, label }: { value: string; label: string }) {
+  const valRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!valRef.current) return
+    const el = valRef.current
+
+    const match = value.match(/^([^0-9]*)([0-9.,]+)([^0-9]*)$/)
+    if (!match) {
+      el.innerText = value
+      return
+    }
+
+    const prefix = match[1] || ''
+    const numStr = match[2].replace(/\./g, '')
+    const suffix = match[3] || ''
+    const targetNum = parseFloat(numStr)
+
+    const formatNumber = (n: number) => {
+      if (value.includes('.')) {
+        return Math.floor(n).toLocaleString('pt-BR')
+      }
+      return Math.floor(n).toString()
+    }
+
+    const obj = { val: 0 }
+    const tween = gsap.to(obj, {
+      val: targetNum,
+      duration: 2.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 90%',
+        once: true,
+      },
+      onUpdate: () => {
+        el.innerText = `${prefix}${formatNumber(obj.val)}${suffix}`
+      }
+    })
+
+    return () => { tween.kill() }
+  }, [value])
+
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <dt className="stat-value" ref={valRef}>0</dt>
+      <dd className="stat-label">{label}</dd>
+    </div>
+  )
+}
+
 export default function Benefits() {
   const sectionRef = useRef<HTMLElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
@@ -74,10 +125,7 @@ export default function Benefits() {
         <div className="container">
           <dl className="stats-grid">
             {STATS.map(({ value, label }) => (
-              <div key={label} style={{ textAlign: 'center' }}>
-                <dt className="stat-value">{value}</dt>
-                <dd className="stat-label">{label}</dd>
-              </div>
+              <AnimatedStat key={label} value={value} label={label} />
             ))}
           </dl>
         </div>
