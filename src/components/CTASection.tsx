@@ -13,7 +13,7 @@ export default function CTASection({ whatsappNumber, whatsappMsg }: CTASectionPr
         <div 
           className="cta-card"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 61, 122, 0.85), rgba(24, 99, 220, 0.85)), url('/image2.webp')`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.80)), url('/image2.webp')`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
