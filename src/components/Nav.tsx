@@ -57,15 +57,39 @@ export default function Nav() {
       { rootMargin: '-20% 0px -60% 0px' }
     )
 
-    // Atraso curto para garantir que DOM carregou as seções
-    setTimeout(() => {
-      NAV_LINKS.forEach(link => {
-        const el = document.getElementById(link.href.replace('#', ''))
-        if (el) observer.observe(el)
-      })
-    }, 100)
+    const observedIds = new Set<string>()
 
-    return () => observer.disconnect()
+    const interval = setInterval(() => {
+      let allFound = true
+      NAV_LINKS.forEach(link => {
+        const id = link.href.slice(1)
+        if (!observedIds.has(id)) {
+          const el = document.getElementById(id)
+          if (el) {
+            observer.observe(el)
+            observedIds.add(id)
+          } else {
+            allFound = false
+          }
+        }
+      })
+      if (allFound) clearInterval(interval)
+    }, 500)
+
+    // Tenta de imediato também
+    NAV_LINKS.forEach(link => {
+      const id = link.href.slice(1)
+      const el = document.getElementById(id)
+      if (el) {
+        observer.observe(el)
+        observedIds.add(id)
+      }
+    })
+
+    return () => {
+      clearInterval(interval)
+      observer.disconnect()
+    }
   }, [])
 
   return (
