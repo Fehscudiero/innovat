@@ -261,6 +261,8 @@ h1, h2, h3, h4 {
   padding: .875rem 2.25rem;
   font-size: 1rem;
   box-shadow: 0 4px 20px rgba(24,99,220,.35);
+  animation: pulse-btn 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  will-change: transform, box-shadow;
 }
 .btn-primary:hover { background: var(--accent-cta-h); box-shadow: 0 8px 28px rgba(24,99,220,.45); }
 
@@ -283,7 +285,9 @@ h1, h2, h3, h4 {
   color: #fff;
   padding: .9375rem 2rem;
   font-size: 1.0625rem;
-  box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  box-shadow: 0 4px 18px rgba(37,211,102,.3);
+  animation: pulse-wa 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  will-change: transform, box-shadow;
 }
 .btn-wa:hover { background: #1fb855; box-shadow: 0 8px 28px rgba(37,211,102,.5); }
 
@@ -1455,7 +1459,7 @@ h1, h2, h3, h4 {
 /* Hero — form card abaixo do copy no mobile */
 /* Hero — form card abaixo do copy no mobile */
 @media (max-width: 639px) {
-  .hero { min-height: auto; padding-bottom: .5rem; padding-top: 9rem; }
+  .hero { min-height: auto; padding-bottom: .5rem; padding-top: 5.5rem; }
   .hero-copy { text-align: center; }
   .hero-badge { margin-inline: auto; display: inline-flex; }
   .hero-trust-strip { justify-content: center; }
