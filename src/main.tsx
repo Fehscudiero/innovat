@@ -25,14 +25,21 @@ const setupWhiteFavicon = () => {
   img.src = '/icone.png';
 };
 
-// Altera título da aba quando o usuário sai (Loss Aversion / Catchy)
+// Altera título da aba de forma intermitente quando o usuário sai (Blinking Effect)
 const setupTabSlogan = () => {
   let originalTitle = document.title;
+  let intervalId: number | undefined;
+  
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       originalTitle = document.title;
-      document.title = 'VOLTE E FAÇA SEU ORÇAMENTO!';
+      let isAlt = false;
+      intervalId = window.setInterval(() => {
+        document.title = isAlt ? originalTitle : '⚠️ SOLICITE SUA COTAÇÃO';
+        isAlt = !isAlt;
+      }, 800); // Pisca a cada 800ms
     } else {
+      if (intervalId) clearInterval(intervalId);
       document.title = originalTitle;
     }
   });
