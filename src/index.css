@@ -1404,7 +1404,7 @@ h1, h2, h3, h4 {
 /* Hero — form card abaixo do copy no mobile */
 /* Hero — form card abaixo do copy no mobile */
 @media (max-width: 639px) {
-  .hero { min-height: auto; padding-bottom: 2rem; }
+  .hero { min-height: auto; padding-bottom: 2rem; padding-top: 5rem; }
   .hero-two-col { gap: 2rem; }
   .hero-headline { font-size: 1.875rem; }
   .hero-sub { font-size: .9375rem; }
