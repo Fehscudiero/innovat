@@ -1,4 +1,4 @@
-import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useEffect, useRef, useImperativeHandle, forwardRef, useCallback } from 'react'
 
 export interface FireworksHandle {
   launch: () => void
@@ -18,64 +18,16 @@ interface Particle {
 
 const COLORS = [
   '#7dd3fc', '#60a5fa', '#34d399', '#fbbf24',
-  '#f472b6', '#a78bfa', '#fb923c', '#fff',
+  '#f472b6', '#a78bfa', '#fb923c', '#ffffff',
   '#1863DC', '#06b6d4',
 ]
 
-function createBurst(cx: number, cy: number, particles: Particle[]) {
-  const count = 80 + Math.random() * 60
-  for (let i = 0; i < count; i++) {
-    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
-    const speed = 2.5 + Math.random() * 5
-    particles.push({
-      x: cx,
-      y: cy,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      alpha: 1,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      size: 2 + Math.random() * 3,
-      decay: 0.012 + Math.random() * 0.01,
-      gravity: 0.06 + Math.random() * 0.04,
-    })
-  }
-}
-
 const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const canvasRef    = useRef<HTMLCanvasElement>(null)
   const particlesRef = useRef<Particle[]>([])
-  const rafRef = useRef<number>(0)
-  const activeRef = useRef(false)
+  const rafRef       = useRef<number | null>(null)
 
-  useImperativeHandle(ref, () => ({
-    launch() {
-      const canvas = canvasRef.current
-      if (!canvas) return
-      const W = canvas.width
-      const H = canvas.height
-
-      // 5 explosões em posições variadas
-      const bursts = [
-        [W * 0.5,  H * 0.35],
-        [W * 0.25, H * 0.45],
-        [W * 0.75, H * 0.45],
-        [W * 0.35, H * 0.25],
-        [W * 0.65, H * 0.25],
-      ]
-
-      particlesRef.current = []
-      bursts.forEach(([x, y], i) => {
-        setTimeout(() => createBurst(x, y, particlesRef.current), i * 220)
-      })
-
-      if (!activeRef.current) {
-        activeRef.current = true
-        animate()
-      }
-    },
-  }))
-
-  function animate() {
+  const animate = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -91,9 +43,9 @@ const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
       p.vx *= 0.98
       p.alpha -= p.decay
 
-      if (p.alpha > 0) {
-        ctx.globalAlpha = p.alpha
-        ctx.fillStyle = p.color
+      if (p.alpha > 0.01) {
+        ctx.globalAlpha = Math.min(p.alpha, 1)
+        ctx.fillStyle   = p.color
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2)
         ctx.fill()
@@ -106,9 +58,58 @@ const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
     if (alive.length > 0) {
       rafRef.current = requestAnimationFrame(animate)
     } else {
-      activeRef.current = false
+      rafRef.current = null
     }
-  }
+  }, [])
+
+  const burst = useCallback((cx: number, cy: number) => {
+    const count = 80 + Math.random() * 60
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
+      const speed = 2.5 + Math.random() * 5
+      particlesRef.current.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        size: 2 + Math.random() * 3,
+        decay: 0.012 + Math.random() * 0.01,
+        gravity: 0.06 + Math.random() * 0.04,
+      })
+    }
+  }, [])
+
+  useImperativeHandle(ref, () => ({
+    launch() {
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const W = canvas.width
+      const H = canvas.height
+
+      const positions = [
+        [W * 0.50, H * 0.35],
+        [W * 0.25, H * 0.45],
+        [W * 0.75, H * 0.45],
+        [W * 0.35, H * 0.25],
+        [W * 0.65, H * 0.25],
+      ]
+
+      particlesRef.current = []
+      positions.forEach(([x, y], i) => {
+        setTimeout(() => burst(x, y), i * 220)
+      })
+
+      // Garante que o loop só rode uma vez
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current)
+      }
+      // Pequeno delay para deixar o 1º burst ser criado
+      setTimeout(() => {
+        rafRef.current = requestAnimationFrame(animate)
+      }, 50)
+    },
+  }), [animate, burst])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -119,10 +120,14 @@ const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
       canvas.height = window.innerHeight
     }
     resize()
-    window.addEventListener('resize', resize)
+    window.addEventListener('resize', resize, { passive: true })
+
     return () => {
       window.removeEventListener('resize', resize)
-      cancelAnimationFrame(rafRef.current)
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = null
+      }
     }
   }, [])
 
@@ -132,11 +137,12 @@ const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
       aria-hidden="true"
       style={{
         position: 'fixed',
-        inset: 0,
+        top: 0,
+        left: 0,
         zIndex: 9999,
         pointerEvents: 'none',
-        width: '100%',
-        height: '100%',
+        width: '100vw',
+        height: '100vh',
       }}
     />
   )
