@@ -117,7 +117,7 @@ export default function Nav() {
                   <HighlightWord 
                     triggerMode="controlled" 
                     isActive={isActive} 
-                    color="var(--brand-primary)"
+                    color="#7dd3fc"
                   >
                     {link.label}
                   </HighlightWord>
