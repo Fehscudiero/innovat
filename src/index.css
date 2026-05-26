@@ -1352,9 +1352,9 @@ h1, h2, h3, h4 {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -48%);
-  width: calc(100% + 20px);
-  height: calc(100% + 22px);
+  transform: translate(-50%, -60%);
+  width: calc(100% + 50px);
+  height: calc(100% + 36px);
   pointer-events: none;
   z-index: -1;
   /* GPU composite layer */
