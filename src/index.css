@@ -1078,7 +1078,7 @@ h1, h2, h3, h4 {
 }
 @media (min-width: 768px) {
   .footer-grid-modern {
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1.5fr 1fr 1fr;
     gap: 2rem;
   }
 }
@@ -1415,6 +1415,8 @@ h1, h2, h3, h4 {
   .faq-question { font-size: .9375rem; }
   .cta-card { padding: 2.5rem 1.25rem; }
   .footer-logo { height: 36px; }
+  .footer-col-nav, .footer-col-contact, .footer-col-brand { text-align: center; }
+  .footer-nav-list, .footer-contact-list { align-items: center; }
   /* Garante que o Marquee continue GIGANTE e com 1 item por vez no mobile */
   .op-marquee-item img { height: 200px; }
   .op-marquee-item { padding-inline: 8rem; }

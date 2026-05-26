@@ -100,7 +100,7 @@ export default function FAQ() {
             Não encontrou sua dúvida? Fale diretamente com um especialista.
           </p>
           <a
-            href="https://wa.me/5511969282807"
+            href="https://wa.me/5511958632747"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-primary"

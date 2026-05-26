@@ -12,7 +12,7 @@ const OperadorasMarquee = lazy(() => import('./components/OperadorasMarquee'))
 const CTASection       = lazy(() => import('./components/CTASection'))
 const Footer           = lazy(() => import('./components/Footer'))
 
-const WA_NUMBER = '5511969282807'
+const WA_NUMBER = '5511958632747'
 const WA_MSG    = encodeURIComponent('Olá! Vim pelo site e gostaria de cotar um plano de saúde.')
 
 export default function App() {

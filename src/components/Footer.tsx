@@ -60,7 +60,7 @@ export default function Footer() {
               <ul className="footer-contact-list">
                 <li>
                   <Phone size={16} className="contact-icon" aria-hidden="true" />
-                  <a href="tel:+5511969282807">(11) 96928-2807</a>
+                  <a href="tel:+5511958632747">(11) 95863-2747</a>
                 </li>
                 <li>
                   <Mail size={16} className="contact-icon" aria-hidden="true" />
@@ -73,26 +73,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* COLUNA 4: LEGAL E BADGES */}
-            <div className="footer-col-trust">
-              <h4 className="footer-heading-modern">Segurança</h4>
-              <div className="trust-badges">
-                <div className="trust-badge">
-                  <ShieldCheck size={18} className="badge-icon" />
-                  <div>
-                    <span className="badge-title">CNPJ Verificado</span>
-                    <span className="badge-value">00.000.000/0001-00</span>
-                  </div>
-                </div>
-                <div className="trust-badge">
-                  <ShieldCheck size={18} className="badge-icon" />
-                  <div>
-                    <span className="badge-title">Registro ANS</span>
-                    <span className="badge-value">000000</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+
 
           </div>
 
