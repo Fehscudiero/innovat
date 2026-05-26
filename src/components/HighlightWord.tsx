@@ -32,7 +32,7 @@ interface Props {
 export default function HighlightWord({
   children,
   color = '#1863DC',
-  once = true,
+  once = false,
   delay = 0.3,
   className = '',
 }: Props) {
@@ -61,7 +61,7 @@ export default function HighlightWord({
       trigger: wrap,
       start: 'top 88%',
       once,
-      onEnter: () => tween.play(),
+      onEnter: () => tween.restart(),
       onEnterBack: once ? undefined : () => tween.restart(),
     })
 

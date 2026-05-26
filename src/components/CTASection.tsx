@@ -47,7 +47,7 @@ export default function CTASection({ whatsappNumber, whatsappMsg }: CTASectionPr
                 fontFamily: "'Montserrat', sans-serif",
               }}
             >
-              Pronto para proteger <HighlightWord color="#7dd3fc" delay={0.25}>quem você ama</HighlightWord>?
+              Pronto para proteger <HighlightWord color="#7dd3fc" delay={1.2}>quem você ama</HighlightWord>?
             </h2>
 
             <p style={{
