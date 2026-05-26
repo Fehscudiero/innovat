@@ -87,7 +87,7 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
         <div className="hero-two-col">
 
           {/* ── COPY ── */}
-          <div>
+          <div className="hero-copy">
             <div className="hero-badge">
               <span className="hero-badge-dot" aria-hidden="true" />
               Atendimento especializado em planos de saúde
