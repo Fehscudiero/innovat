@@ -10,7 +10,8 @@ import {
   FileText,
 } from "lucide-react";
 import HighlightWord from "./HighlightWord";
-import Fireworks, { FireworksHandle } from "./Fireworks";
+import Fireworks from "./Fireworks";
+import type { FireworksHandle } from "./Fireworks";
 
 gsap.registerPlugin(ScrollTrigger);
 
