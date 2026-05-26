@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Phone, Mail, MapPin, ShieldCheck, ChevronRight } from 'lucide-react'
+import { Phone, Mail, MapPin, ChevronRight } from 'lucide-react'
 import LegalModal, { type ModalType } from './LegalModal'
 
 export default function Footer() {
