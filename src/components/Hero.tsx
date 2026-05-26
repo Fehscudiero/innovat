@@ -106,10 +106,10 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
               Comparamos as melhores operadoras e entregamos a cotação certa para você em minutos.
             </p>
 
-            <div style={{ display: 'flex', gap: '.875rem', flexWrap: 'wrap' }}>
+            <div className="hero-btn-group" style={{ display: 'flex', gap: '.875rem', flexWrap: 'wrap' }}>
               <a
                 href="#planos"
-                className="btn btn-primary btn-primary-lg"
+                className="btn btn-primary btn-primary-lg btn-pulse"
                 aria-label="Escolha seu plano de saúde"
               >
                 Escolha seu plano
@@ -246,7 +246,7 @@ export default function Hero({ whatsappNumber, whatsappMsg }: HeroProps) {
 
                     <button
                       type="submit"
-                      className="btn btn-primary btn-primary-lg btn-full"
+                      className="btn btn-primary btn-primary-lg btn-full btn-pulse"
                       disabled={isPending}
                       aria-label="Enviar cotação e receber proposta pelo WhatsApp"
                       style={{ marginTop: '.25rem' }}
