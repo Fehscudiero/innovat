@@ -1404,7 +1404,7 @@ h1, h2, h3, h4 {
 /* Hero — form card abaixo do copy no mobile */
 /* Hero — form card abaixo do copy no mobile */
 @media (max-width: 639px) {
-  .hero { min-height: auto; padding-bottom: .5rem; padding-top: 4rem; }
+  .hero { min-height: auto; padding-bottom: .5rem; padding-top: 7rem; }
   .hero-two-col { gap: 2rem; }
   .hero-headline { font-size: 1.875rem; }
   .hero-sub { font-size: .9375rem; }
@@ -1414,6 +1414,7 @@ h1, h2, h3, h4 {
   .faq-trigger { padding: 1rem 1.125rem; }
   .faq-question { font-size: .9375rem; }
   .cta-card { padding: 2.5rem 1.25rem; }
+  #form-lead { scroll-margin-top: 15vh; }
   .footer-logo { height: 36px; }
   .footer-col-nav, .footer-col-contact, .footer-col-brand { text-align: center; }
   .footer-nav-list, .footer-contact-list { align-items: center; }
