@@ -1,7 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef, useCallback } from 'react'
 
 export interface FireworksHandle {
-  launch: () => void
+  launch: (target?: HTMLElement | null) => void
 }
 
 interface Particle {
@@ -17,9 +17,16 @@ interface Particle {
 }
 
 const COLORS = [
-  '#7dd3fc', '#60a5fa', '#34d399', '#fbbf24',
-  '#f472b6', '#a78bfa', '#fb923c', '#ffffff',
-  '#1863DC', '#06b6d4',
+  '#38bdf8', // sky-400
+  '#60a5fa', // blue-400
+  '#34d399', // emerald-400
+  '#fbbf24', // amber-400
+  '#f472b6', // pink-400
+  '#c084fc', // purple-400
+  '#fb923c', // orange-400
+  '#ffffff', // white
+  '#1863DC', // brand blue
+  '#22d3ee', // cyan-400
 ]
 
 const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
@@ -62,52 +69,65 @@ const Fireworks = forwardRef<FireworksHandle>((_, ref) => {
     }
   }, [])
 
-  const burst = useCallback((cx: number, cy: number) => {
-    const count = 80 + Math.random() * 60
+  const burst = useCallback((cx: number, cy: number, customCount?: number, customSpeed?: number) => {
+    const count = customCount || (80 + Math.random() * 60)
+    const baseSpeed = customSpeed || 4
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
-      const speed = 2.5 + Math.random() * 5
+      const speed = (baseSpeed * 0.6) + Math.random() * (baseSpeed * 0.8)
       particlesRef.current.push({
-        x: cx, y: cy,
+        x: cx,
+        y: cy,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         alpha: 1,
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        size: 2 + Math.random() * 3,
-        decay: 0.012 + Math.random() * 0.01,
-        gravity: 0.06 + Math.random() * 0.04,
+        size: 1.5 + Math.random() * 3,
+        decay: 0.008 + Math.random() * 0.008, // Decaimento mais lento para efeito duradouro
+        gravity: 0.04 + Math.random() * 0.03, // Gravidade suave
       })
     }
   }, [])
 
   useImperativeHandle(ref, () => ({
-    launch() {
+    launch(target?: HTMLElement | null) {
       const canvas = canvasRef.current
       if (!canvas) return
       const W = canvas.width
       const H = canvas.height
 
-      const positions = [
-        [W * 0.50, H * 0.35],
-        [W * 0.25, H * 0.45],
-        [W * 0.75, H * 0.45],
-        [W * 0.35, H * 0.25],
-        [W * 0.65, H * 0.25],
-      ]
+      let cx = W * 0.5
+      let cy = H * 0.4
 
-      particlesRef.current = []
-      positions.forEach(([x, y], i) => {
-        setTimeout(() => burst(x, y), i * 220)
-      })
+      if (target) {
+        const rect = target.getBoundingClientRect()
+        cx = rect.left + rect.width / 2
+        cy = rect.top + rect.height / 2
+      }
 
-      // Garante que o loop só rode uma vez
+      // Sequência de 5 explosões espetaculares ao redor do número:
+      // 1. Imediato: no centro do número (faíscas concentradas)
+      burst(cx, cy, 60, 3)
+
+      // 2. +150ms: à esquerda e acima
+      setTimeout(() => burst(cx - 90, cy - 40, 70, 4.5), 150)
+
+      // 3. +300ms: à direita e acima
+      setTimeout(() => burst(cx + 90, cy - 40, 70, 4.5), 300)
+
+      // 4. +450ms: diretamente acima (explosão média)
+      setTimeout(() => burst(cx, cy - 110, 90, 5), 450)
+
+      // 5. +600ms: bem alto (grande explosão máster)
+      setTimeout(() => burst(cx, cy - 180, 125, 6), 600)
+
+      // Garante que o loop de animação esteja rodando
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current)
       }
-      // Pequeno delay para deixar o 1º burst ser criado
       setTimeout(() => {
         rafRef.current = requestAnimationFrame(animate)
-      }, 50)
+      }, 30)
     },
   }), [animate, burst])
 

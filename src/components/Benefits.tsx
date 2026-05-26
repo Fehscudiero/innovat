@@ -68,7 +68,7 @@ function AnimatedStat({
 }: {
   value: string;
   label: string;
-  onComplete?: () => void;
+  onComplete?: (el: HTMLElement) => void;
 }) {
   const valRef = useRef<HTMLElement>(null);
 
@@ -109,7 +109,26 @@ function AnimatedStat({
       },
       onComplete: () => {
         el.innerText = `${prefix}${formatNumber(targetNum)}${suffix}`;
-        onComplete?.();
+        if (onComplete) {
+          // Animação profissional e impressionante no número
+          gsap.timeline()
+            .to(el, {
+              scale: 1.35,
+              color: "#38bdf8", // Sky blue brand color
+              textShadow: "0 0 20px rgba(56, 189, 248, 0.85), 0 0 40px rgba(24, 99, 220, 0.65)",
+              duration: 0.35,
+              ease: "back.out(2.5)",
+            })
+            .to(el, {
+              scale: 1,
+              color: "#ffffff",
+              textShadow: "none",
+              duration: 0.5,
+              ease: "power2.out",
+              delay: 0.3,
+            });
+          onComplete(el);
+        }
       },
     });
 
@@ -170,7 +189,7 @@ export default function Benefits() {
                 key={label}
                 value={value}
                 label={label}
-                onComplete={fireworks ? () => fireworksRef.current?.launch() : undefined}
+                onComplete={fireworks ? (el) => fireworksRef.current?.launch(el) : undefined}
               />
             ))}
           </dl>
