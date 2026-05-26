@@ -42,7 +42,7 @@ export default function HighlightWord({
 }: Props) {
   const wrapRef  = useRef<HTMLSpanElement>(null)
   const pathRef  = useRef<SVGPathElement>(null)
-  const tweenRef = useRef<gsap.core.Tween>()
+  const tweenRef = useRef<gsap.core.Tween | null>(null)
 
   useEffect(() => {
     const wrap = wrapRef.current
