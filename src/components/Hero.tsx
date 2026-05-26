@@ -42,7 +42,7 @@ function validate(f: FormData): FormErrors {
 
 const TRUST_ITEMS = [
   { text: 'Regulado pela ANS', icon: '✓' },
-  { text: '+12.000 famílias atendidas', icon: '★' },
+  { text: '+4 milhões de famílias', icon: '★' },
   { text: 'Resposta em 15 min', icon: '⚡' },
 ]
 
