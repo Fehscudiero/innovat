@@ -58,25 +58,30 @@ export default function HighlightWord({
     let len = path.getTotalLength() || 1000
     gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
 
-    // Recalcula o comprimento real assim que o navegador finalizar o layout inicial
-    const timer = setTimeout(() => {
-      if (!path) return
-      const realLen = path.getTotalLength()
-      if (realLen > 0) {
-        len = realLen
-        gsap.set(path, { strokeDasharray: len })
-        // Se o link ainda não estiver ativo, garante que continue oculto com o comprimento correto
-        if (!isActiveRef.current) {
-          gsap.set(path, { strokeDashoffset: len })
+    // Recalcula o comprimento real para o modo controlado se tiver iniciado em 0
+    let timer: number | undefined
+    if (triggerMode === 'controlled') {
+      timer = window.setTimeout(() => {
+        if (!path) return
+        const realLen = path.getTotalLength()
+        if (realLen > 0) {
+          len = realLen
+          gsap.set(path, { strokeDasharray: len })
+          // Se o link ainda não estiver ativo, garante que continue oculto com o comprimento correto
+          if (!isActiveRef.current) {
+            gsap.set(path, { strokeDashoffset: len })
+          }
         }
-      }
-    }, 120)
+      }, 120)
+    }
+
+    const prefersReduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
     tweenRef.current = gsap.to(path, {
       strokeDashoffset: 0,
-      duration: triggerMode === 'scroll' ? 1.1 : 0.6,
+      duration: prefersReduced ? 0 : (triggerMode === 'scroll' ? 1.1 : 0.6),
       ease: 'power2.inOut',
-      delay: triggerMode === 'scroll' ? delay : 0,
+      delay: triggerMode === 'scroll' ? (prefersReduced ? 0 : delay) : 0,
       paused: true,
     })
 
@@ -89,13 +94,13 @@ export default function HighlightWord({
         onEnterBack: once ? undefined : () => tweenRef.current?.restart(),
       })
       return () => {
-        clearTimeout(timer)
+        if (timer) clearTimeout(timer)
         trigger.kill()
         tweenRef.current?.kill()
       }
     } else {
       return () => {
-        clearTimeout(timer)
+        if (timer) clearTimeout(timer)
         tweenRef.current?.kill()
       }
     }
