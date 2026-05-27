@@ -111,7 +111,7 @@ export default function HighlightWord({
   return (
     <span
       ref={wrapRef}
-      className={`hw-wrap ${className}`}
+      className={`hw-wrap ${className} hw-${triggerMode} ${isActive ? 'hw-active' : ''}`}
       style={{ position: 'relative', display: 'inline-block', whiteSpace: 'nowrap' }}
     >
       {children}
