@@ -54,16 +54,31 @@ export default function HighlightWord({
     const path = pathRef.current
     if (!wrap || !path) return
 
-    // Fallback de 1000 se o layout do SVG ainda não estiver pronto (getTotalLength retornar 0)
-    let len = path.getTotalLength() || 1000
+    // Tenta obter o comprimento real do path com segurança
+    let len = 1000
+    try {
+      if (typeof path.getTotalLength === 'function') {
+        len = path.getTotalLength() || 1000
+      }
+    } catch (e) {
+      console.warn('Erro ao obter comprimento do path SVG:', e)
+    }
+
     gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
 
-    // Recalcula o comprimento real para o modo controlado se tiver iniciado em 0
+    // Recalcula o comprimento real para o modo controlado se tiver iniciado em 0 ou padrão
     let timer: number | undefined
     if (triggerMode === 'controlled') {
       timer = window.setTimeout(() => {
         if (!path) return
-        const realLen = path.getTotalLength()
+        let realLen = 1000
+        try {
+          if (typeof path.getTotalLength === 'function') {
+            realLen = path.getTotalLength() || 1000
+          }
+        } catch (e) {
+          // ignore
+        }
         if (realLen > 0) {
           len = realLen
           gsap.set(path, { strokeDasharray: len })
@@ -75,13 +90,11 @@ export default function HighlightWord({
       }, 120)
     }
 
-    const prefersReduced = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-
     tweenRef.current = gsap.to(path, {
       strokeDashoffset: 0,
-      duration: prefersReduced ? 0 : (triggerMode === 'scroll' ? 1.1 : 0.6),
+      duration: triggerMode === 'scroll' ? 1.1 : 0.6,
       ease: 'power2.inOut',
-      delay: triggerMode === 'scroll' ? (prefersReduced ? 0 : delay) : 0,
+      delay: triggerMode === 'scroll' ? delay : 0,
       paused: true,
     })
 
