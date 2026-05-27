@@ -43,14 +43,34 @@ export default function HighlightWord({
   const wrapRef  = useRef<HTMLSpanElement>(null)
   const pathRef  = useRef<SVGPathElement>(null)
   const tweenRef = useRef<gsap.core.Tween | null>(null)
+  const isActiveRef = useRef(isActive)
+
+  useEffect(() => {
+    isActiveRef.current = isActive
+  }, [isActive])
 
   useEffect(() => {
     const wrap = wrapRef.current
     const path = pathRef.current
     if (!wrap || !path) return
 
-    const len = path.getTotalLength()
+    // Fallback de 1000 se o layout do SVG ainda não estiver pronto (getTotalLength retornar 0)
+    let len = path.getTotalLength() || 1000
     gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
+
+    // Recalcula o comprimento real assim que o navegador finalizar o layout inicial
+    const timer = setTimeout(() => {
+      if (!path) return
+      const realLen = path.getTotalLength()
+      if (realLen > 0) {
+        len = realLen
+        gsap.set(path, { strokeDasharray: len })
+        // Se o link ainda não estiver ativo, garante que continue oculto com o comprimento correto
+        if (!isActiveRef.current) {
+          gsap.set(path, { strokeDashoffset: len })
+        }
+      }
+    }, 120)
 
     tweenRef.current = gsap.to(path, {
       strokeDashoffset: 0,
@@ -68,9 +88,16 @@ export default function HighlightWord({
         onEnter: () => tweenRef.current?.restart(),
         onEnterBack: once ? undefined : () => tweenRef.current?.restart(),
       })
-      return () => { trigger.kill(); tweenRef.current?.kill() }
+      return () => {
+        clearTimeout(timer)
+        trigger.kill()
+        tweenRef.current?.kill()
+      }
     } else {
-      return () => { tweenRef.current?.kill() }
+      return () => {
+        clearTimeout(timer)
+        tweenRef.current?.kill()
+      }
     }
   }, [delay, once, triggerMode])
 
