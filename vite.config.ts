@@ -6,10 +6,12 @@ export default defineConfig({
     react(),
   ],
   build: {
-    // Target moderno — elimina polyfills desnecessários
-    target: 'es2015',
+    // Target moderno — elimina polyfills desnecessários e reduz bundle size
+    target: 'es2020',
     // CSS minificado pelo esbuild
     cssMinify: true,
+    // Separa CSS em chunks para carregamento paralelo e não bloqueante
+    cssCodeSplit: true,
     chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {

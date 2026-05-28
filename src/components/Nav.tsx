@@ -105,6 +105,7 @@ export default function Nav() {
               fetchPriority="high"
               decoding="sync"
               loading="eager"
+              style={{ maxWidth: '267px', height: 'auto' }}
             />
           </a>
 

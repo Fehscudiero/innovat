@@ -54,68 +54,72 @@ export default function HighlightWord({
     const path = pathRef.current
     if (!wrap || !path) return
 
-    // Tenta obter o comprimento real do path com segurança
-    let len = 1000
-    try {
-      if (typeof path.getTotalLength === 'function') {
-        len = path.getTotalLength() || 1000
-      }
-    } catch (e) {
-      console.warn('Erro ao obter comprimento do path SVG:', e)
-    }
+    // Oculta o caminho imediatamente via CSS attr para evitar flash
+    // antes do requestAnimationFrame calcular o comprimento real
+    path.setAttribute('stroke-dasharray', '1000')
+    path.setAttribute('stroke-dashoffset', '1000')
 
-    gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
-
-    // Recalcula o comprimento real para o modo controlado se tiver iniciado em 0 ou padrão
     let timer: number | undefined
-    if (triggerMode === 'controlled') {
-      timer = window.setTimeout(() => {
-        if (!path) return
-        let realLen = 1000
-        try {
-          if (typeof path.getTotalLength === 'function') {
-            realLen = path.getTotalLength() || 1000
-          }
-        } catch (e) {
-          // ignore
-        }
-        if (realLen > 0) {
-          len = realLen
-          gsap.set(path, { strokeDasharray: len })
-          // Se o link ainda não estiver ativo, garante que continue oculto com o comprimento correto
-          if (!isActiveRef.current) {
-            gsap.set(path, { strokeDashoffset: len })
-          }
-        }
-      }, 120)
-    }
+    let rafId: number
 
-    tweenRef.current = gsap.to(path, {
-      strokeDashoffset: 0,
-      duration: triggerMode === 'scroll' ? 1.1 : 0.6,
-      ease: 'power2.inOut',
-      delay: triggerMode === 'scroll' ? delay : 0,
-      paused: true,
+    // requestAnimationFrame: leitura de getTotalLength ocorre APÓS o browser
+    // finalizar o layout do frame → elimina o forced reflow (auditoria Lighthouse)
+    rafId = requestAnimationFrame(() => {
+      if (!path) return
+
+      let len = 1000
+      try {
+        if (typeof path.getTotalLength === 'function') {
+          const measured = path.getTotalLength()
+          if (measured > 0) len = measured
+        }
+      } catch (_) { /* SVG ainda não pintado */ }
+
+      gsap.set(path, { strokeDasharray: len, strokeDashoffset: len })
+
+      // Para modo controlado: recalcula após 120ms caso o layout ainda não
+      // estivesse estável no primeiro requestAnimationFrame
+      if (triggerMode === 'controlled') {
+        timer = window.setTimeout(() => {
+          if (!path) return
+          try {
+            const realLen = path.getTotalLength?.() || len
+            if (realLen > 0 && realLen !== len) {
+              gsap.set(path, { strokeDasharray: realLen })
+              if (!isActiveRef.current) {
+                gsap.set(path, { strokeDashoffset: realLen })
+              }
+            }
+          } catch (_) { /* ignore */ }
+        }, 120)
+      }
+
+      tweenRef.current = gsap.to(path, {
+        strokeDashoffset: 0,
+        duration: triggerMode === 'scroll' ? 1.1 : 0.6,
+        ease: 'power2.inOut',
+        delay: triggerMode === 'scroll' ? delay : 0,
+        paused: true,
+      })
+
+      if (triggerMode === 'scroll') {
+        const trigger = ScrollTrigger.create({
+          trigger: wrap,
+          start: 'top 88%',
+          once,
+          onEnter: () => tweenRef.current?.restart(),
+          onEnterBack: once ? undefined : () => tweenRef.current?.restart(),
+        })
+        // Captura a ref de cleanup no closure
+        ;(wrap as any).__st_cleanup = () => { trigger.kill() }
+      }
     })
 
-    if (triggerMode === 'scroll') {
-      const trigger = ScrollTrigger.create({
-        trigger: wrap,
-        start: 'top 88%',
-        once,
-        onEnter: () => tweenRef.current?.restart(),
-        onEnterBack: once ? undefined : () => tweenRef.current?.restart(),
-      })
-      return () => {
-        if (timer) clearTimeout(timer)
-        trigger.kill()
-        tweenRef.current?.kill()
-      }
-    } else {
-      return () => {
-        if (timer) clearTimeout(timer)
-        tweenRef.current?.kill()
-      }
+    return () => {
+      cancelAnimationFrame(rafId)
+      if (timer) clearTimeout(timer)
+      ;(wrap as any).__st_cleanup?.()
+      tweenRef.current?.kill()
     }
   }, [delay, once, triggerMode])
 

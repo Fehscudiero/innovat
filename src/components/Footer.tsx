@@ -36,6 +36,7 @@ export default function Footer() {
                 loading="lazy"
                 decoding="async"
                 className="footer-logo-modern"
+                style={{ maxWidth: '320px', height: 'auto' }}
               />
               <p className="footer-desc-modern">
                 Corretora de planos de saúde independente, comprometida com a sua tranquilidade.
