@@ -266,6 +266,19 @@ h1, h2, h3, h4 {
 }
 .btn-primary:hover { background: var(--accent-cta-h); box-shadow: 0 8px 28px rgba(24,99,220,.45); }
 
+.btn-whatsapp {
+  background: #25d366;
+  color: #fff;
+  padding: .875rem 2.25rem;
+  font-size: 1rem;
+  box-shadow: 0 4px 20px rgba(37,211,102,.35);
+  will-change: transform, box-shadow;
+}
+.btn-whatsapp:hover {
+  background: #20ba5a;
+  box-shadow: 0 8px 28px rgba(37,211,102,.45);
+}
+
 .btn-primary-lg {
   padding: 1.0625rem 2.75rem;
   font-size: 1.0625rem;

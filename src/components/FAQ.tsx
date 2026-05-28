@@ -99,7 +99,7 @@ export default function FAQ() {
             href="https://wa.me/5511958632747"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-primary"
+            className="btn btn-whatsapp"
             aria-label="Tirar dúvidas pelo WhatsApp"
           >
             <svg
