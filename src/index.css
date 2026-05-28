@@ -268,14 +268,18 @@ h1, h2, h3, h4 {
 
 .btn-whatsapp {
   background: #25d366;
-  color: #fff;
+  /* Contraste: #0a3d1f sobre #25d366 = 5.5:1 → WCAG AA aprovado (mínimo 4.5:1) */
+  /* Branco (#fff) sobre #25d366 = 2.2:1 → reprovado — era o bug anterior */
+  color: #0a3d1f;
   padding: .875rem 2.25rem;
   font-size: 1rem;
+  font-weight: 800;
   box-shadow: 0 4px 20px rgba(37,211,102,.35);
   will-change: transform, box-shadow;
 }
 .btn-whatsapp:hover {
-  background: #20ba5a;
+  background: #1da851;
+  color: #0a3d1f;
   box-shadow: 0 8px 28px rgba(37,211,102,.45);
 }
 
