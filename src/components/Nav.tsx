@@ -98,7 +98,7 @@ export default function Nav() {
         <div className="container nav-inner">
           <a href="/" className="nav-logo" aria-label="Alpha Convênios — Página inicial">
             <img
-              src="/logo.png"
+              src="/logo.webp"
               alt="Alpha Convênios"
               width="267"
               height="80"

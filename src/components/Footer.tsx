@@ -29,7 +29,7 @@ export default function Footer() {
             {/* COLUNA 1: BRAND & SOCIAL */}
             <div className="footer-col-brand">
               <img
-                src="/logo.png"
+                src="/logo.webp"
                 alt="Alpha Convênios"
                 width="320"
                 height="96"

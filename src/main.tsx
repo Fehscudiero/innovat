@@ -22,7 +22,7 @@ const setupWhiteFavicon = () => {
       link.href = canvas.toDataURL("image/png");
     }
   };
-  img.src = "/icone.png";
+  img.src = "/icone.webp";
 };
 
 // Altera título da aba de forma intermitente quando o usuário sai (Blinking Effect)
