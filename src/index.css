@@ -878,6 +878,21 @@ h1, h2, h3, h4 {
   gap: 2.5rem; /* Distância entre a Pista 1 e Pista 2 */
 }
 
+/* @keyframes para levitação orgânica — roda na GPU (compositor thread)
+   sem nenhuma leitura de propriedade de layout → zero forced reflow */
+@keyframes op-float-a {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-14px) rotate(1.5deg); }
+}
+@keyframes op-float-b {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-10px) rotate(-1deg); }
+}
+@keyframes op-float-c {
+  0%,100% { transform: translateY(0px) rotate(0deg); }
+  50%      { transform: translateY(-18px) rotate(2deg); }
+}
+
 /* TRACKS — GPU only via GSAP x */
 .op-marquee-track {
   display: flex;
@@ -896,16 +911,21 @@ h1, h2, h3, h4 {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 50px; /* Efeito pílula (Pill) ultra premium */
+  border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.25rem 2rem;
-  
-  /* Cores vivas por padrão */
   box-shadow: 0 12px 32px rgba(0, 86, 167, 0.06);
-  will-change: transform; /* Preparado para o GSAP bobbing */
+  /* Levitação orgânica via CSS animation (GPU) — sem GSAP, sem reflow */
+  animation: op-float-a 3.2s ease-in-out infinite;
 }
+/* nth-child delays: cada card flutua em fase diferente — efeito orgânico */
+.op-card:nth-child(2n)   { animation-name: op-float-b; animation-duration: 2.8s; animation-delay: -0.6s; }
+.op-card:nth-child(3n)   { animation-name: op-float-c; animation-duration: 3.6s; animation-delay: -1.2s; }
+.op-card:nth-child(4n)   { animation-name: op-float-a; animation-duration: 2.5s; animation-delay: -0.9s; }
+.op-card:nth-child(5n)   { animation-name: op-float-b; animation-duration: 4.0s; animation-delay: -1.8s; }
+.op-card:nth-child(6n)   { animation-name: op-float-c; animation-duration: 3.0s; animation-delay: -0.3s; }
 
 .op-card img {
   width: 100%;

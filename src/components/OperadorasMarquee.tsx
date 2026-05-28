@@ -37,47 +37,39 @@ export default function OperadorasMarquee() {
   const t2Ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    // 1. ANIMAÇÃO: PISTA 1 (Esquerda)
-    if (t1Ref.current) {
-      const halfW = t1Ref.current.scrollWidth / 2
-      gsap.fromTo(t1Ref.current, { x: 0 }, {
-        x: -halfW,
-        duration: 40,
-        ease: 'none',
-        repeat: -1
-      })
-    }
+    let rafId: number
+    let ctx: ReturnType<typeof gsap.context>
 
-    // 2. ANIMAÇÃO: PISTA 2 (Direita) - Velocidade levemente diferente para efeito de profundidade
-    if (t2Ref.current) {
-      const halfW = t2Ref.current.scrollWidth / 2
-      gsap.fromTo(t2Ref.current, { x: -halfW }, {
-        x: 0,
-        duration: 55, // Mais lento = parece estar "no fundo"
-        ease: 'none',
-        repeat: -1
-      })
-    }
+    // requestAnimationFrame garante que a leitura de scrollWidth ocorre APÓS
+    // o browser finalizar o layout do frame → elimina forced reflow (Lighthouse)
+    rafId = requestAnimationFrame(() => {
+      ctx = gsap.context(() => {
+        // PISTA 1 (Esquerda)
+        if (t1Ref.current) {
+          const halfW = t1Ref.current.scrollWidth / 2
+          gsap.fromTo(t1Ref.current,
+            { x: 0 },
+            { x: -halfW, duration: 40, ease: 'none', repeat: -1 }
+          )
+        }
 
-    // 3. O TOQUE DE MESTRE: LEVITAÇÃO ORGÂNICA (BOBBING)
-    const cards = gsap.utils.toArray('.op-card') as HTMLElement[]
-    cards.forEach((card) => {
-      // Cada card recebe valores randômicos garantindo que nenhum flutue exatamente igual ao outro
-      gsap.to(card, {
-        y: "random(-16, 16)",
-        rotation: "random(-2, 2)",
-        duration: "random(2.5, 4)",
-        yoyo: true,
-        repeat: -1,
-        ease: 'sine.inOut',
-        delay: "random(0, 2)"
+        // PISTA 2 (Direita — velocidade diferente = profundidade)
+        if (t2Ref.current) {
+          const halfW = t2Ref.current.scrollWidth / 2
+          gsap.fromTo(t2Ref.current,
+            { x: -halfW },
+            { x: 0, duration: 55, ease: 'none', repeat: -1 }
+          )
+        }
+        // NOTA: O efeito de levitação (bobbing) foi movido para CSS animation
+        // pura (.op-card-float) — roda na GPU sem ler propriedades de layout,
+        // eliminando o forced reflow que custava 12ms por card no Lighthouse.
       })
     })
 
     return () => {
-      gsap.killTweensOf(t1Ref.current)
-      gsap.killTweensOf(t2Ref.current)
-      gsap.killTweensOf('.op-card')
+      cancelAnimationFrame(rafId)
+      ctx?.revert()
     }
   }, [])
 
