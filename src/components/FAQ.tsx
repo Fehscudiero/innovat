@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     q: "Como funcionam os reajustes anuais?",
-    a: "Planos individuais/familiares têm reajuste máximo anual definido pela ANS. Planos coletivos (empresariais) são negociados diretamente com as operadoras. Nossa equipe avisa antes de qualquer reajuste e avalia se vale a pena migrar de operadora.",
+    a: "Planos individuais e familiares possuem reajuste anual regulado pela ANS. Já os planos empresariais seguem critérios definidos pelas operadoras conforme contrato, utilização e faixa de beneficiários. Nossa equipe acompanha cada caso e auxilia na melhor análise de custo-benefício para sua empresa.",
   },
   {
     q: "Posso incluir dependentes no plano?",
@@ -22,10 +22,6 @@ const FAQS = [
   {
     q: "O plano cobre consultas com especialistas e exames?",
     a: "Depende do segmento contratado (Ambulatorial, Hospitalar ou Referência). Os planos que trabalhamos incluem a cobertura mínima obrigatória pela ANS. Apresentamos um comparativo completo antes de você decidir.",
-  },
-  {
-    q: "Como funciona a portabilidade de carências?",
-    a: "Se você já possui plano de saúde há mais de 2 anos, pode migrar para um novo plano sem cumprir nova carência para doenças ou lesões já cobertas — desde que faça a portabilidade corretamente. Nossa equipe cuida de todo esse processo para você.",
   },
 ];
 
